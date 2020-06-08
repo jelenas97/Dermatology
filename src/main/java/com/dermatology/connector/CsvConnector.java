@@ -1,9 +1,6 @@
 package com.dermatology.connector;
 
-import com.dermatology.model.Exam;
-import com.dermatology.model.Medication;
-import com.dermatology.model.PatientDescription;
-import com.dermatology.model.Symptom;
+import com.dermatology.model.*;
 import ucm.gaia.jcolibri.cbrcore.CBRCase;
 import ucm.gaia.jcolibri.cbrcore.CaseBaseFilter;
 import ucm.gaia.jcolibri.cbrcore.Connector;
@@ -46,8 +43,14 @@ public class CsvConnector implements Connector {
                         .map(Medication::getName)
                         .collect(Collectors.toList());
                 patientDescription.setMedication(medications);
+                List<String> additionalExams = examCase.getAdditionalExam().stream()
+                        .map(AdditionalExam::getName)
+                        .collect(Collectors.toList());
+                patientDescription.setAdditionalExams(additionalExams);
+                patientDescription.setCaseId(examCase.getId());
                 cbrCase.setDescription(patientDescription);
                 cases.add(cbrCase);
+
 
             }
         } catch (Exception e) {

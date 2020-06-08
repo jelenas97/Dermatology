@@ -14,9 +14,9 @@ import java.util.List;
 public class ExamDTO {
 
     private Long patientId;
-    private Long diseaseId;
-    private List<Long> symptomList;
-    private List<Long> medications;
-    private Long additionalExam;
+    private String disease;
+    private List<String> symptomList;
+    private List<String> medications;
+    private List<String> additionalExam;
 
 }

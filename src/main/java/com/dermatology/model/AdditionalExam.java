@@ -1,5 +1,6 @@
 package com.dermatology.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,4 +21,8 @@ public class AdditionalExam {
 
     @Column
     private String name;
+    @JsonIgnore
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public Exam exam;
 }

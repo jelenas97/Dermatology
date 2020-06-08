@@ -3,7 +3,7 @@ package com.dermatology.service.interfaces;
 import com.dermatology.model.Disease;
 
 public interface DiseaseService {
-    void add(Disease d);
+    void save(Disease d);
 
     Disease find(Long id);
 

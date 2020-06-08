@@ -56,6 +56,8 @@ public class CbrApplication implements StandardCBRApplication {
 
         simConfig.addMapping(new Attribute("medication", PatientDescription.class), new SimilarityFunction("medication"));
         simConfig.addMapping(new Attribute("symptom", PatientDescription.class), new SimilarityFunction("symptom"));
+        simConfig.addMapping(new Attribute("additionalExams", PatientDescription.class), new SimilarityFunction("additionalExams"));
+
         TableSimilarity diseaseSimilarity = new TableSimilarity((Arrays.asList("suga", "akne", "kontaktni_dermatitis")));
         diseaseSimilarity.setSimilarity("suga", "kontaktni_dermatitis", .5);
         diseaseSimilarity.setSimilarity("suga", "akne", .7);

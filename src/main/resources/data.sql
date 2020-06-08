@@ -12,7 +12,7 @@ values (99, '1925-05-11', 'Katarina', 'Zensko', 'Klajic', 2);
 insert into symptom(name, exam_id)
 values ('papule', 1);
 insert into symptom(name, exam_id)
-values ('svarb', 1);
+values ('svrab', 1);
 insert into symptom(name, exam_id)
 values ('crvenilo', 1);
 
@@ -30,11 +30,11 @@ values ('permetrin_krema', 1);
 insert into medication(name, exam_id)
 values ('sumporna_krema', 2);
 
-insert into additional_exam(name) value ('kompletna_krvna_slika');
-insert into additional_exam(name) value ('test_koze');
+insert into additional_exam(name,exam_id) value ('kompletna_krvna_slika',1);
+insert into additional_exam(name,exam_id) value ('test_koze',2);
 
 
-insert into exam(additional_exam_id, disease_id, patient_id)
-values (1, 1, 1);
-insert into exam(additional_exam_id, disease_id, patient_id)
-values (2, 1, 2);
+insert into exam(disease_id, patient_id)
+values (1, 1);
+insert into exam(disease_id, patient_id)
+values (1, 2);

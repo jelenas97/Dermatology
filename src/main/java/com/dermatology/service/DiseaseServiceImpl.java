@@ -12,7 +12,7 @@ public class DiseaseServiceImpl implements DiseaseService {
     private DiseaseRepository diseaseRepository;
 
     @Override
-    public void add(Disease d) {
+    public void save(Disease d) {
         this.diseaseRepository.save(d);
     }
 
