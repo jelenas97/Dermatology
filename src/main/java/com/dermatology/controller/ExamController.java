@@ -6,7 +6,6 @@ import com.dermatology.dto.ExamDTO;
 import com.dermatology.model.Exam;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
-import com.dermatology.model.Symptom;
 import com.dermatology.service.interfaces.ExamService;
 import com.dermatology.service.interfaces.PatientService;
 import com.dermatology.service.interfaces.SymptomService;
@@ -22,7 +21,6 @@ import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "exam")
@@ -68,22 +66,25 @@ public class ExamController {
 
             Collection<RetrievalResult> cases = application.predict();
             List<Exam> foundCases = new ArrayList<>();
+            int i = 1;
             for (RetrievalResult res : cases) {
-                String s[] = res.get_case().getDescription().toString().split("caseId=");
+                String[] s = res.get_case().getDescription().toString().split("caseId=");
                 Long id = Long.parseLong(s[1].split("}")[0]);
                 Exam e2 = this.examService.find(id);
                 foundCases.add(e2);
-            }
-            int i = 1;
-            for(Exam e : foundCases){
-                System.out.println( i + " . pronadjeni slucaj je : " + e.toString());
+                System.out.println(i + " . pronadjeni slucaj je : " + res);
                 i++;
+            }
+            int i2 = 1;
+            for(Exam e : foundCases){
+                //    System.out.println( i + " . pronadjeni slucaj je : " + e.toString());
+                i2++;
             }
 
         }catch(Exception e){
             return ResponseEntity.notFound().build();
         }
-        return null;
+        return ResponseEntity.ok().build();
     }
 
 }

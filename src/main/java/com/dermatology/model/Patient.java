@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,8 +26,6 @@ public class Patient {
     @Column
     private String gender;
 
-    @Column
-    private LocalDateTime dateOfBirth;
 
     @Column
     private int age;
