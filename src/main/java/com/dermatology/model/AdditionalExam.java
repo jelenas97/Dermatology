@@ -12,16 +12,12 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Medication {
+public class AdditionalExam {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
     private String name;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public Exam exam;
-
-
 }
