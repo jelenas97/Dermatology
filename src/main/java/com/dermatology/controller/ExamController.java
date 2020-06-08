@@ -8,7 +8,6 @@ import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
 import com.dermatology.service.interfaces.ExamService;
 import com.dermatology.service.interfaces.PatientService;
-import com.dermatology.service.interfaces.SymptomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,8 +31,6 @@ public class ExamController {
     @Autowired
     private PatientService patientService;
 
-    @Autowired
-    private SymptomService symptomService;
 
 
     @PostMapping(produces = "application/json", consumes = "application/json")
