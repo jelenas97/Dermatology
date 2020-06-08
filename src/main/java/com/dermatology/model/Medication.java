@@ -1,9 +1,18 @@
 package com.dermatology.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Medication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,23 +20,10 @@ public class Medication {
 
     @Column
     private String name;
+    @JsonIgnore
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public Exam exam;
 
-    public Medication() {
-    }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
