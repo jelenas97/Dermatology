@@ -18,8 +18,8 @@
 
     <div class="row">
         <div class="col-lg-5 offset-lg-7">
-            <button class="btn ml-5 pl-5" type="button"><a href="/medicalRecord/new">Create Medical Records</a></button>
-            <button class="btn ml-5 pl-5" type="button"><a href="/medicalRecord/all">Show Medical Records</a></button>
+            <button class="btn ml-5 pl-5" type="button"><a href="/patient/new">Register New Patient</a></button>
+            <button class="btn ml-5 pl-5" type="button"><a href="/patient/all">Show Patients</a></button>
         </div>
     </div>
 </div>

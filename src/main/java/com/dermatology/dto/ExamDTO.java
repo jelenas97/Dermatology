@@ -1,9 +1,6 @@
 package com.dermatology.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,8 +10,8 @@ import java.util.List;
 @ToString
 public class ExamDTO {
 
-    private Long patientId;
     private String disease;
+    private Double probability;
     private List<String> symptomList;
     private List<String> medications;
     private List<String> additionalExam;
