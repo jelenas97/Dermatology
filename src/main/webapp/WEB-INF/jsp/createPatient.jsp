@@ -52,7 +52,7 @@
 
     <div class="row">
         <div class="col-1 offset-8 mt-5" >
-            <a href="/medicalRecord/save" class="ml-5"><input type="submit" value="Save" class="btn border-0 mt-3 ml-3 pl-5"/></a>
+            <a class="ml-5"><input type="submit" value="Save" class="btn border-0 mt-3 ml-3 pl-5"/></a>
         </div>
     </div>
     </form:form>

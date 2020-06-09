@@ -33,12 +33,9 @@
             <div class="col-lg-4 offset-5">
                 <form:label path="symptoms" class="text-white mb-3 lead ml-5 mt-5">Symptom</form:label>
                 <form:select path="symptoms" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
-                    <option>United Kingdom</option>
-                    <option>United States</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                    <option>Italy</option>
-                    <option>Iraq</option>
+                    <c:forEach items="${symptoms}" var="symptom">
+                        <option class="w-50" value="${symptom}">${symptom}</option>
+                    </c:forEach>
                 </form:select>
             </div>
         </div>
@@ -47,7 +44,7 @@
         <div class="row">
             <div class="col-1 offset-8 mt-5" >
                 <a href="/additionalExam/predict/${additionalExamDto.patientId}" class="ml-5">
-                    <input  type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
+                    <input id="showResult" type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
                 </a>
             </div>
         </div>
@@ -59,13 +56,10 @@
         <div class="row">
             <div class="col-lg-4 offset-5">
                 <form:label path="symptom" class="text-white mb-3 lead ml-5 mt-5">Symptom</form:label>
-                <form:select path="symptom" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
-                    <option>United Kingdom</option>
-                    <option>United States</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                    <option>Italy</option>
-                    <option>Iraq</option>
+                <form:select path="symptom" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" class="selectpicker w-100 ml-5">
+                    <c:forEach items="${symptoms}" var="symptom">
+                        <option class="w-50" value="${symptom}">${symptom}</option>
+                    </c:forEach>
                 </form:select>
             </div>
         </div>
@@ -73,13 +67,10 @@
         <div class="row">
             <div class="col-lg-4 offset-5">
                 <form:label path="additionalExam" class="text-white mb-3 lead ml-5 mt-5">Additional Exam</form:label>
-                <form:select path="additionalExam" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
-                    <option>United Kingdom</option>
-                    <option>United States</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                    <option>Italy</option>
-                    <option>Iraq</option>
+                <form:select path="additionalExam" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" class="selectpicker w-100 ml-5">
+                   <c:forEach items="${additionalExams}" var="additionalExam">
+                       <option class="w-50" value="${additionalExam}">${additionalExam}</option>
+                   </c:forEach>
                 </form:select>
             </div>
         </div>
@@ -99,13 +90,10 @@
         <div class="row">
             <div class="col-lg-4 offset-5">
                 <form:label path="disease" class="text-white mb-3 lead ml-5 mt-5">Disease</form:label>
-                <form:select path="disease" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
-                    <option>United Kingdom</option>
-                    <option>United States</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                    <option>Italy</option>
-                    <option>Iraq</option>
+                <form:select path="disease" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
+                    <c:forEach items="${diseases}" var="disease">
+                        <option class="w-50" value="${disease}">${disease}</option>
+                    </c:forEach>
                 </form:select>
             </div>
         </div>
@@ -113,7 +101,7 @@
 
         <div class="row">
             <div class="col-1 offset-8 mt-5" >
-                <a href="/disease/predict/${diseaseDto.patientId}" class="ml-5">
+                <a href="/disease/predict/${medicamentDto.patientId}" class="ml-5">
                     <input  type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
                 </a>
             </div>
@@ -154,6 +142,7 @@
 
                 }
             );
+
         });
     });
 
