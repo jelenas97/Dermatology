@@ -18,7 +18,7 @@
 </head>
 <body>
 <div class="bg">
-    <form:form method="post" action="/medicalRecord/save" modelAttribute="medicalRecordDto">
+    <form:form method="post" action="/patient" modelAttribute="patientDto">
     <div class="row">
         <div class="col-lg-2 offset-5">
             <form:label path="firstName" class="text-white ml-5 mt-5">First Name</form:label>
@@ -35,35 +35,18 @@
 
     <div class="row">
         <div class="col-lg-2 offset-5">
-            <label class="text-white ml-5 mt-5">Gender</label>
-            <select data-style="form-control rounded-pill bg-white border-0" class="selectpicker gender ml-5 form-control rounded-pill">
+            <form:label path="gender" class="text-white ml-5 mt-5">Gender</form:label>
+            <form:select path="gender" data-style="form-control rounded-pill bg-white border-0" class="selectpicker gender ml-5 form-control rounded-pill">
                 <option>Male</option>
                 <option>Female</option>
                 <option>Other</option>
-            </select>
+            </form:select>
         </div>
 
         <div class="col-lg-2">
-            <label class="text-white ml-5 mt-5">Date of Birth</label>
-            <div class='input-group date ml-5' id='datepicker'>
-                <input type='text' class="form-control rounded-pill border-0" />
-                <span class="input-group-addon bg-white">
-                </span>
-            </div>
-        </div>
-    </div>
+            <form:label path="age" class="text-white ml-5 mt-5">Age</form:label>
+            <form:input path="age" type='number' class="form-control rounded-pill border-0 ml-5" />
 
-    <div class="row">
-        <div class="col-lg-4 offset-5">
-            <label class="text-white mb-3 lead ml-5 mt-5">Where do you live?</label>
-            <select multiple data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
-                <option>United Kingdom</option>
-                <option>United States</option>
-                <option>France</option>
-                <option>Germany</option>
-                <option>Italy</option>
-                <option>Iraq</option>
-            </select>
         </div>
     </div>
 

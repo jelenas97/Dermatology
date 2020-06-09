@@ -22,7 +22,7 @@
                         <td>FirstName</td>
                         <td>LastName</td>
                         <td>Gender</td>
-                        <td>Date Of Birth</td>
+                        <td>Age</td>
                         <td>More Info</td>
                         <td>Start Exam</td>
                     </tr>
@@ -33,9 +33,9 @@
                                 <td>${item.firstName}</td>
                                 <td>${item.lastName}</td>
                                 <td>${item.gender}</td>
-                                <td>${item.dateOfBirth}</td>
+                                <td>${item.age}</td>
                                 <td><button class="btn btn-dark"><a href="/moreInfo" class="text-white">More Info</a></button></td>
-                                <td><button class="btn btn-dark"><a href="/exam/new" class="text-white">Start Exam</a></button></td>
+                                <td><button class="btn btn-dark"><a href="/exam/new/${item.id}" class="text-white">Start Exam</a></button></td>
                             </tr>
                         </c:forEach>
                     </body>

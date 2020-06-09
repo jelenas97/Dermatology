@@ -6,6 +6,8 @@ import com.dermatology.service.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PatientServiceImpl implements PatientService {
     @Autowired
@@ -19,5 +21,10 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient find(Long id) {
         return this.patientRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Patient> getAll() {
+        return patientRepository.findAll();
     }
 }
