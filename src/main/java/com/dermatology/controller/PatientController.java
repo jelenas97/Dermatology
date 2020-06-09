@@ -90,11 +90,6 @@ public class PatientController {
         return new ResponseEntity( patients, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<?> getPatient(@PathVariable("id") String id) {
-        Patient patient= this.patientService.getById(Long.parseLong(id));
-        return new ResponseEntity(patient, HttpStatus.OK);
-    }
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<?> addPatient(@RequestBody Patient patient) {
