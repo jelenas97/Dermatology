@@ -1,6 +1,9 @@
 package com.dermatology.controller;
 
 
+import com.dermatology.dto.AdditionalExamDto;
+import com.dermatology.dto.DiseaseDto;
+import com.dermatology.dto.MedicamentDto;
 import com.dermatology.cbr.CbrApplication;
 import com.dermatology.dto.ExamDTO;
 import com.dermatology.model.Exam;
@@ -10,9 +13,9 @@ import com.dermatology.service.interfaces.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
@@ -27,8 +30,8 @@ public class ExamController {
     @Autowired
     private ExamService examService;
 
-//    @Autowired
-//    private PatientService patientService;
+    @Autowired
+    private PatientService patientService;
 
 
 
@@ -47,11 +50,11 @@ public class ExamController {
             application.preCycle();
             CBRQuery query = new CBRQuery();
 
-           // Patient p = this.patientService.find(examDTO.getPatientId());
+            Patient p = this.patientService.find(examDTO.getPatientId());
 
             PatientDescription patientDescription = new PatientDescription();
-//            patientDescription.setAge(p.getAge());
-//            patientDescription.setGender(p.getGender());
+            patientDescription.setAge(p.getAge());
+            patientDescription.setGender(p.getGender());
 
             patientDescription.setSymptom(examDTO.getSymptomList());
 
@@ -83,4 +86,21 @@ public class ExamController {
         return ResponseEntity.ok().build();
     }
 
+
+    @GetMapping("/new/{id}")
+    public String create(Model model, @PathVariable String id) {
+
+        DiseaseDto diseaseDto = new DiseaseDto();
+        MedicamentDto medicamentDto = new MedicamentDto();
+        AdditionalExamDto additionalExamDto = new AdditionalExamDto();
+
+        diseaseDto.setPatientId(Long.parseLong(id));
+        medicamentDto.setPatientId(Long.parseLong(id));
+        additionalExamDto.setPatientId(Long.parseLong(id));
+
+        model.addAttribute("diseaseDto", diseaseDto);
+        model.addAttribute("medicamentDto", medicamentDto);
+        model.addAttribute("additionalExamDto", additionalExamDto);
+        return "medicalExam";
+    }
 }

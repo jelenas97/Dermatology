@@ -1,5 +1,6 @@
 package com.dermatology.controller;
 
+import com.dermatology.dto.DiseaseDto;
 import com.dermatology.model.Disease;
 import com.dermatology.service.interfaces.DiseaseService;
 import com.ugos.jiprolog.engine.JIPEngine;
@@ -10,16 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "disease")
+@RequestMapping(value = "disease")
 public class DiseaseController {
-
     @Autowired
     private DiseaseService diseaseService;
+
+    @PostMapping("/predict/{patientId}")
+    public String predict(Model model, @Valid @ModelAttribute("diseaseDto")DiseaseDto diseaseDto, @PathVariable String patientId){
+        System.out.println(diseaseDto.getSymptom());
+        return "hello";
+    }
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getDiseases() {
@@ -78,5 +86,4 @@ public class DiseaseController {
         }        return new ResponseEntity(HttpStatus.OK);
 
     }
-
 }

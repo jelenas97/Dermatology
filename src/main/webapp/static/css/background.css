@@ -1,0 +1,17 @@
+.bg {
+    background-image: url("../images/background.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.75;
+}
+
+.klasa {
+    margin-top: 300px;
+}
+
+a:hover {
+    text-decoration: none;
+    text-underline: none;
+}

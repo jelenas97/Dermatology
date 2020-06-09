@@ -15,8 +15,13 @@ public class PatientServiceImpl implements PatientService {
     private PatientRepository patientRepository;
 
     @Override
-    public List<Patient> getAll() {
-        return this.patientRepository.findAll();
+    public void save(Patient patient) {
+        this.patientRepository.save(patient);
+    }
+
+    @Override
+    public Patient find(Long id) {
+        return this.patientRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -24,8 +29,9 @@ public class PatientServiceImpl implements PatientService {
         return this.patientRepository.findById(id).orElse(null);
     }
 
+
     @Override
-    public void save(Patient patient) {
-        this.patientRepository.save(patient);
+    public List<Patient> getAll() {
+        return patientRepository.findAll();
     }
 }
