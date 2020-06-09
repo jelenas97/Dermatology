@@ -6,6 +6,8 @@ import com.dermatology.service.interfaces.DiseaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DiseaseServiceImpl implements DiseaseService {
     @Autowired
@@ -24,5 +26,15 @@ public class DiseaseServiceImpl implements DiseaseService {
     @Override
     public Disease findByName(String name) {
         return this.diseaseRepository.findByName(name);
+    }
+
+    @Override
+    public List<Disease> getAll() {
+        return this.diseaseRepository.findAll();
+    }
+
+    @Override
+    public Disease getById(long id) {
+        return this.diseaseRepository.findById(id).orElse(null);
     }
 }

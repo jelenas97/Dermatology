@@ -7,7 +7,6 @@ import com.dermatology.model.Exam;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
 import com.dermatology.service.interfaces.ExamService;
-import com.dermatology.service.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,8 +27,8 @@ public class ExamController {
     @Autowired
     private ExamService examService;
 
-    @Autowired
-    private PatientService patientService;
+//    @Autowired
+//    private PatientService patientService;
 
 
 
@@ -48,11 +47,11 @@ public class ExamController {
             application.preCycle();
             CBRQuery query = new CBRQuery();
 
-            Patient p = this.patientService.find(examDTO.getPatientId());
+           // Patient p = this.patientService.find(examDTO.getPatientId());
 
             PatientDescription patientDescription = new PatientDescription();
-            patientDescription.setAge(p.getAge());
-            patientDescription.setGender(p.getGender());
+//            patientDescription.setAge(p.getAge());
+//            patientDescription.setGender(p.getGender());
 
             patientDescription.setSymptom(examDTO.getSymptomList());
 
