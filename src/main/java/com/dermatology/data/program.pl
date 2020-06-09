@@ -7,7 +7,7 @@ ispitivanja(L,B) :- findall(A,dodatni_pregled(B,A),L).
 
 
 %prikaz liste lekova za odredjenu dijagnozu
-lekovi(L,B) :- findall([V,A],lek(B,A,V),L2),sort(L2,L).
+lekovi(L,B) :- findall([V,A],lek(B,A,V),L).
 
 
 %postoji li odredjeni lijek za tu bolest u listi

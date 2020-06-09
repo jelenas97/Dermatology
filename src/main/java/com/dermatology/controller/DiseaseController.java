@@ -60,6 +60,7 @@ public class DiseaseController {
 
         engine.consultFile("src/main/java/com/dermatology/data/program.pl");
         JIPQuery query = engine.openSynchronousQuery("lekovi(L,akne)");
+        //JIPQuery query = engine.openSynchronousQuery("dijagnoze_preko_simptoma([H|T],[papule])");
 
         // pravila se mogu dodavati i tokom izvrsavanja (u runtime-u)
         // assertz dodaje pravilo na kraj programa (aasserta dodaje na pocetak programa), na primer:
