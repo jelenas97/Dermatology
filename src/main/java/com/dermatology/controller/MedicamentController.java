@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
@@ -34,7 +35,7 @@ public class MedicamentController {
     private PatientService patientService;
 
     @PostMapping("/predict/{patientId}")
-    public String predict(Model model, @Valid @ModelAttribute("medicationDto") MedicamentDto medicamentDto, @PathVariable String patientId){
+    public ModelAndView predict(Model model, @Valid @ModelAttribute("medicationDto") MedicamentDto medicamentDto, @PathVariable String patientId){
         try {
             List<Exam> examCases = this.examService.findAll();
 
@@ -64,16 +65,15 @@ public class MedicamentController {
                 String[] s = res.get_case().getDescription().toString().split("caseId=");
                 Long id = Long.parseLong(s[1].split("}")[0]);
                 Exam e2 = this.examService.find(id);
-                ExamDTO dto = new ExamDTO(e2, res.getEval());
+                ExamDTO dto = new ExamDTO(e2, res.getEval() * 100);
                 foundCasesDTO.add(dto);
+                model.addAttribute("foundCases", foundCasesDTO);
                 System.out.println(i + " . pronadjeni slucaj je : " + dto);
             }
         } catch (Exception e) {
-            //null
-            return "bilo sta";
+            return null;
         }
-        //foundCasesDTO
-        return "hello";
+        return new ModelAndView("showMedicationPrediction", model.asMap());
     }
 
 }

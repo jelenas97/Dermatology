@@ -47,7 +47,7 @@
         <div class="row">
             <div class="col-1 offset-8 mt-5" >
                 <a href="/additionalExam/predict/${additionalExamDto.patientId}" class="ml-5">
-                    <input  type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
+                    <input id="showResult" type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
                 </a>
             </div>
         </div>
@@ -113,26 +113,12 @@
 
         <div class="row">
             <div class="col-1 offset-8 mt-5" >
-                <a href="/disease/predict/${diseaseDto.patientId}" class="ml-5">
+                <a href="/disease/predict/${medicamentDto.patientId}" class="ml-5">
                     <input  type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
                 </a>
             </div>
         </div>
     </form:form>
-
-
-    <div class="row">
-        <div class="col-lg-4 offset-5">
-            <table class="table">
-                <c:forEach items="${lista}" var="result">
-                    <tr>
-                        <td>${result.}</td>
-                        <td></td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </div>
 
 
 </div>
@@ -168,6 +154,7 @@
 
                 }
             );
+
         });
     });
 
