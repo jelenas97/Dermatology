@@ -7,14 +7,12 @@ import com.dermatology.model.Exam;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
 import com.dermatology.service.interfaces.ExamService;
+import com.dermatology.service.interfaces.MedicationService;
 import com.dermatology.service.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
@@ -32,6 +30,9 @@ public class MedicamentController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private MedicationService medicationService;
 
     @PostMapping("/predict/{patientId}")
     public String predict(Model model, @Valid @ModelAttribute("medicationDto") MedicamentDto medicamentDto, @PathVariable String patientId){
@@ -74,6 +75,13 @@ public class MedicamentController {
         }
         //foundCasesDTO
         return "hello";
+    }
+
+    @GetMapping()
+    public List<String> getAll() {
+
+        List<String> medications = this.medicationService.findDistinct();
+        return medications;
     }
 
 }
