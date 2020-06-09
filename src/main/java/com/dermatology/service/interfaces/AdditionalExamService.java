@@ -1,18 +1,15 @@
 package com.dermatology.service.interfaces;
 
 import com.dermatology.model.AdditionalExam;
-import com.dermatology.repository.AdditionalExamRepository;
-import com.dermatology.repository.DiseaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public interface AdditionalExamService {
+    void save(AdditionalExam exam);
 
+    AdditionalExam find(Long id);
 
-    List<AdditionalExam> getAll();
+    AdditionalExam findByName(String name);
 
-    AdditionalExam getById(long id);
-
-    void save(AdditionalExam additionalExam);
+    List<String> findDistinct();
 }

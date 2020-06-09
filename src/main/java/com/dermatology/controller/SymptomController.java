@@ -1,5 +1,11 @@
 package com.dermatology.controller;
 
+
+import com.dermatology.service.interfaces.SymptomService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import com.dermatology.model.Patient;
 import com.dermatology.model.Symptom;
 import com.dermatology.service.interfaces.PatientService;
@@ -13,11 +19,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "symptom")
+@RequestMapping(value = "symptom")
 public class SymptomController {
     @Autowired
     private SymptomService symptomService;
 
+    @GetMapping()
+    public List<String> getAll() {
+
+        List<String> symptoms = this.symptomService.findDistinct();
+        return symptoms;
+    }
+
+}
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getSymptoms() {
         List<Symptom> symptoms= this.symptomService.getAll();

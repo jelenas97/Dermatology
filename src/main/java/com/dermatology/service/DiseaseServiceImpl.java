@@ -37,4 +37,9 @@ public class DiseaseServiceImpl implements DiseaseService {
     public Disease getById(long id) {
         return this.diseaseRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<String> findDistinct() {
+        return this.diseaseRepository.findDistinct();
+    }
 }

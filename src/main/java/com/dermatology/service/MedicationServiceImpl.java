@@ -16,6 +16,12 @@ public class MedicationServiceImpl implements MedicationService {
     private MedicationRepository medicationRepository;
 
     @Override
+    public void save(Medication medication) {
+        this.medicationRepository.save(medication);
+    }
+
+    @Override
+    public Medication find(Long id) {
     public List<Medication> getAll() {
         return this.medicationRepository.findAll();
     }
@@ -26,7 +32,12 @@ public class MedicationServiceImpl implements MedicationService {
     }
 
     @Override
-    public void save(Medication medication) {
-        this.medicationRepository.save(medication);
+    public Medication findByName(String name) {
+        return this.medicationRepository.findByName(name);
+    }
+
+    @Override
+    public List<String> findDistinct() {
+        return this.medicationRepository.findDistinct();
     }
 }

@@ -3,6 +3,9 @@ package com.dermatology.controller;
 import com.dermatology.cbr.CbrApplication;
 import com.dermatology.dto.AdditionalExamDto;
 import com.dermatology.model.AdditionalExam;
+import com.dermatology.dto.DiseaseDto;
+import com.dermatology.dto.ExamDTO;
+import com.dermatology.dto.MedicamentDto;
 import com.dermatology.model.Exam;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
@@ -14,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
@@ -38,7 +44,7 @@ public class AdditionalExamController {
 
 
     @PostMapping("/predict/{patientId}")
-    public String newCase(@ModelAttribute("additionalExamDto") AdditionalExamDto additionalExamDto, @PathVariable String patientId) {
+    public ModelAndView newCase(@ModelAttribute("additionalExamDto") AdditionalExamDto additionalExamDto, @PathVariable String patientId, Model model) {
         try {
             List<Exam> examCases = this.examService.findAll();
 
@@ -64,33 +70,34 @@ public class AdditionalExamController {
             application.preCycle();
 
             Collection<RetrievalResult> cases = application.predict();
-            List<Exam> foundCases = new ArrayList<>();
+            List<ExamDTO> foundCasesDTO = new ArrayList<>();
             int i = 1;
             for (RetrievalResult res : cases) {
                 String[] s = res.get_case().getDescription().toString().split("caseId=");
                 Long id = Long.parseLong(s[1].split("}")[0]);
                 Exam e2 = this.examService.find(id);
-                foundCases.add(e2);
-                System.out.println(i + " . pronadjeni slucaj je : " + res.getEval());
-                i++;
-            }
-            int i2 = 1;
-            for(Exam e : foundCases){
-                //    System.out.println( i + " . pronadjeni slucaj je : " + e.toString());
-                i2++;
-            }
+                ExamDTO dto = new ExamDTO(e2, res.getEval() * 100);
+                foundCasesDTO.add(dto);
+                model.addAttribute("foundCases", foundCasesDTO);
+                System.out.println(i + " . pronadjeni slucaj je : " + dto);
 
+            }
         }catch(Exception e){
-            return "bilo sta";
+            //null
+            return null;
         }
-        return "hello";
+        //foundCasesDTO
+        return new ModelAndView("showAdditionalExamPrediction", model.asMap());
     }
 
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<?> getAdditionalExams() {
-        List<AdditionalExam> additionalExams= this.additionalExamService.getAll();
-        return new ResponseEntity(additionalExams, HttpStatus.OK);
+    @GetMapping()
+    public List<String> getAll() {
+
+        List<String> additionExams = this.additionalExamService.findDistinct();
+        return additionExams;
     }
+
+
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<?> getAdditionalExam(@PathVariable("id") String id) {

@@ -14,17 +14,22 @@ public class AdditionalExamServiceImpl implements AdditionalExamService {
     private AdditionalExamRepository additionalExamRepository;
 
     @Override
-    public List<AdditionalExam> getAll() {
-        return this.additionalExamRepository.findAll();
+    public void save(AdditionalExam exam) {
+        this.additionalExamRepository.save(exam);
     }
 
     @Override
-    public AdditionalExam getById(long id) {
+    public AdditionalExam find(Long id) {
         return this.additionalExamRepository.findById(id).orElse(null);
     }
 
     @Override
-    public void save(AdditionalExam additionalExam) {
-        this.additionalExamRepository.save(additionalExam);
+    public AdditionalExam findByName(String name) {
+        return this.additionalExamRepository.findByName(name);
+    }
+
+    @Override
+    public List<String> findDistinct() {
+        return this.additionalExamRepository.findDistinct();
     }
 }
