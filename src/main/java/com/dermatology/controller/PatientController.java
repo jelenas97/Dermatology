@@ -1,8 +1,6 @@
 package com.dermatology.controller;
 
-import com.dermatology.dto.MedicalRecordDto;
 import com.dermatology.dto.PatientDto;
-import com.dermatology.model.Medication;
 import com.dermatology.model.Patient;
 import com.dermatology.service.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import sun.security.krb5.internal.PAData;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "patient")
