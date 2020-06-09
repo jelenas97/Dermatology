@@ -99,7 +99,7 @@
         <div class="row">
             <div class="col-lg-4 offset-5">
                 <form:label path="disease" class="text-white mb-3 lead ml-5 mt-5">Disease</form:label>
-                <form:select path="disease" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
+                <form:select path="disease" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
                     <option>United Kingdom</option>
                     <option>United States</option>
                     <option>France</option>
@@ -119,6 +119,20 @@
             </div>
         </div>
     </form:form>
+
+
+    <div class="row">
+        <div class="col-lg-4 offset-5">
+            <table class="table">
+                <c:forEach items="${lista}" var="result">
+                    <tr>
+                        <td>${result.}</td>
+                        <td></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </div>
 
 
 </div>
