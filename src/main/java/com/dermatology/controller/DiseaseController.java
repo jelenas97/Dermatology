@@ -6,15 +6,13 @@ import com.dermatology.dto.ExamDTO;
 import com.dermatology.model.Exam;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
+import com.dermatology.service.interfaces.DiseaseService;
 import com.dermatology.service.interfaces.ExamService;
 import com.dermatology.service.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
@@ -35,6 +33,9 @@ public class DiseaseController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private DiseaseService diseaseService;
 
 
     @PostMapping("/predict/{patientId}")
@@ -80,6 +81,13 @@ public class DiseaseController {
         }
         //foundCasesDTO
         return new ModelAndView("showDiseasePrediction", model.asMap());
+    }
+
+    @GetMapping()
+    public List<String> getAll() {
+
+        List<String> disease = this.diseaseService.findDistinct();
+        return disease;
     }
 
 }

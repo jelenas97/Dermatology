@@ -1,6 +1,6 @@
 package com.dermatology.repository;
 
-import com.dermatology.model.Disease;
+import com.dermatology.model.Symptom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,11 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DiseaseRepository extends JpaRepository<Disease, Long> {
+public interface SymptomRepository extends JpaRepository<Symptom, Long> {
+    Symptom findByName(String name);
 
-    Disease findByName(String name);
-
-    @Query(value = "select DISTINCT m.name from Disease m ")
+    @Query(value = "select DISTINCT m.name from Symptom m ")
     List<String> findDistinct();
 
 }
