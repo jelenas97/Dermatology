@@ -28,7 +28,6 @@ public class SymptomServiceImpl implements SymptomService {
     }
 
 
-
     @Override
     public List<Symptom> getAll() {
         return this.symptomRepository.findAll();
@@ -39,6 +38,7 @@ public class SymptomServiceImpl implements SymptomService {
         return this.symptomRepository.findById(id).orElse(null);
     }
 
+    @Override
     public Symptom findByName(String name) {
         return this.symptomRepository.findByName(name);
     }
@@ -46,4 +46,5 @@ public class SymptomServiceImpl implements SymptomService {
     @Override
     public List<String> findDistinct() {
         return this.symptomRepository.findDistinct();
+    }
 }

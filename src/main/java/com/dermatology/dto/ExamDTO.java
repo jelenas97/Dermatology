@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class ExamDTO {
 
     private String disease;
+    private long patientId;
     private Double probability;
     private List<String> symptomList;
     private List<String> medications;

@@ -11,5 +11,9 @@ public interface AdditionalExamService {
 
     AdditionalExam findByName(String name);
 
+
+
     List<String> findDistinct();
+
+    AdditionalExam getById(long id);
 }

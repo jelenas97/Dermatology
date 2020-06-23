@@ -22,6 +22,8 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     public Medication find(Long id) {
+        return this.medicationRepository.findById(id).orElse(null);
+    }
     public List<Medication> getAll() {
         return this.medicationRepository.findAll();
     }

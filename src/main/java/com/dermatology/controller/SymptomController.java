@@ -31,7 +31,6 @@ public class SymptomController {
         return symptoms;
     }
 
-}
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getSymptoms() {
         List<Symptom> symptoms= this.symptomService.getAll();
