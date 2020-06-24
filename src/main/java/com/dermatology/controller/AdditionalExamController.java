@@ -96,7 +96,7 @@ public class AdditionalExamController {
             return null;
         }
         //foundCasesDTO
-        return new ModelAndView("showAdditionalExamPrediction", model.asMap());
+        return new ModelAndView("medicalExam", model.asMap());
     }
 
     @GetMapping()
