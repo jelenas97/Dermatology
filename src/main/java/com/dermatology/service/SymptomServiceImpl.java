@@ -2,6 +2,8 @@ package com.dermatology.service;
 
 
 import com.dermatology.model.Symptom;
+import com.dermatology.model.Symptom;
+import com.dermatology.repository.PatientRepository;
 import com.dermatology.repository.SymptomRepository;
 import com.dermatology.service.interfaces.SymptomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,17 @@ public class SymptomServiceImpl implements SymptomService {
 
     @Override
     public Symptom find(Long id) {
+        return this.symptomRepository.findById(id).orElse(null);
+    }
+
+
+    @Override
+    public List<Symptom> getAll() {
+        return this.symptomRepository.findAll();
+    }
+
+    @Override
+    public Symptom getById(long id) {
         return this.symptomRepository.findById(id).orElse(null);
     }
 

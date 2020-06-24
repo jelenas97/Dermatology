@@ -1,6 +1,7 @@
 package com.dermatology.controller;
 
 import com.dermatology.dto.PatientDto;
+import com.dermatology.model.Medication;
 import com.dermatology.model.Patient;
 import com.dermatology.service.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,25 @@ public class PatientController {
             return new ModelAndView("showPatients", model.asMap());
 
 
+    }
+
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<?> getPatients() {
+        List<Patient> patients= this.patientService.getAll();
+        return new ResponseEntity( patients, HttpStatus.OK);
+    }
+
+
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<?> addPatient(@RequestBody Patient patient) {
+        try {
+            this.patientService.save(patient);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch(Exception e)
+        {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
     }
 
 }

@@ -12,4 +12,8 @@ public interface DiseaseService {
     Disease findByName(String name);
 
     List<String> findDistinct();
+
+    List<Disease> getAll();
+
+    Disease getById(long id);
 }

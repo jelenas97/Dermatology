@@ -1,6 +1,7 @@
 package com.dermatology.service;
 
 import com.dermatology.model.Medication;
+import com.dermatology.repository.ExamRepository;
 import com.dermatology.repository.MedicationRepository;
 import com.dermatology.service.interfaces.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,14 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     public Medication find(Long id) {
+        return this.medicationRepository.findById(id).orElse(null);
+    }
+    public List<Medication> getAll() {
+        return this.medicationRepository.findAll();
+    }
+
+    @Override
+    public Medication getById(long id) {
         return this.medicationRepository.findById(id).orElse(null);
     }
 

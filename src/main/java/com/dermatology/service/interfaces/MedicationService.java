@@ -12,4 +12,8 @@ public interface MedicationService {
     Medication findByName(String name);
 
     List<String> findDistinct();
+    List<Medication> getAll();
+
+    Medication getById(long id);
+
 }

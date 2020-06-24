@@ -2,6 +2,7 @@ package com.dermatology.controller;
 
 import com.dermatology.cbr.CbrApplication;
 import com.dermatology.dto.AdditionalExamDto;
+import com.dermatology.model.AdditionalExam;
 import com.dermatology.dto.DiseaseDto;
 import com.dermatology.dto.ExamDTO;
 import com.dermatology.dto.MedicamentDto;
@@ -12,7 +13,10 @@ import com.dermatology.service.interfaces.AdditionalExamService;
 import com.dermatology.service.interfaces.ExamService;
 import com.dermatology.service.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,15 +33,14 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "additionalExam")
 public class AdditionalExamController {
 
+    @Autowired
+    private AdditionalExamService additionalExamService;
 
     @Autowired
     private ExamService examService;
 
     @Autowired
     private PatientService patientService;
-
-    @Autowired
-    private AdditionalExamService additionalExamService;
 
 
     @PostMapping("/predict/{patientId}")
@@ -95,5 +98,23 @@ public class AdditionalExamController {
     }
 
 
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<?> getAdditionalExam(@PathVariable("id") String id) {
+        AdditionalExam additionalExam= this.additionalExamService.getById(Long.parseLong(id));
+        return new ResponseEntity(additionalExam, HttpStatus.OK);
+    }
+
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<?> addAdditionalExam(@RequestBody AdditionalExam additionalExam) {
+        try {
+            this.additionalExamService.save(additionalExam);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch(Exception e)
+        {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
 
 }

@@ -32,4 +32,9 @@ public class AdditionalExamServiceImpl implements AdditionalExamService {
     public List<String> findDistinct() {
         return this.additionalExamRepository.findDistinct();
     }
+
+    @Override
+    public AdditionalExam getById(long id) {
+        return null;
+    }
 }
