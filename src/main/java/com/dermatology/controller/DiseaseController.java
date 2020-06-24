@@ -117,14 +117,30 @@ public class DiseaseController {
         }
     }
 
-    @GetMapping(path = "/prolog")
-    public ResponseEntity<?> test() {
-
+    @PostMapping(path = "/prolog/{patientId}")
+    public ModelAndView predictProlog(Model model, @Valid @ModelAttribute("diseaseDto")DiseaseDto diseaseDto, @PathVariable String patientId) {
         JIPEngine engine = new JIPEngine();
 
         engine.consultFile("src/main/java/com/dermatology/data/program.pl");
-        JIPQuery query = engine.openSynchronousQuery("lekovi(L,akne)");
+
+        List<String> symptoms = Arrays.stream(diseaseDto.getSymptom().split(",")).collect(Collectors.toList());
+        String symptomsProlog = diseaseDto.getSymptom();
+        JIPQuery query;
+        if (symptoms.size() == 0) {
+            return null;
+        } else if (symptoms.size() == 1)
+        {
+
+            query = engine.openSynchronousQuery("dijagnoza_preko_jednog_simptoma(L5,"+ symptomsProlog +")");
+
+        } else
+        {
+            query = engine.openSynchronousQuery("dijagnoze_preko_simptoma(["+ symptomsProlog +"], L3)");
+
+        }
         //JIPQuery query = engine.openSynchronousQuery("dijagnoze_preko_simptoma([H|T],[papule])");
+
+
 
         // pravila se mogu dodavati i tokom izvrsavanja (u runtime-u)
         // assertz dodaje pravilo na kraj programa (aasserta dodaje na pocetak programa), na primer:
@@ -148,7 +164,9 @@ public class DiseaseController {
                 System.out.println(additionalExams);
 
             }
-        }        return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ModelAndView("showDiseasePrediction", model.asMap());
+
 
     }
 

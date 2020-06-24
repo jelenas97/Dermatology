@@ -12,6 +12,10 @@ import com.dermatology.model.PatientDescription;
 import com.dermatology.service.interfaces.AdditionalExamService;
 import com.dermatology.service.interfaces.ExamService;
 import com.dermatology.service.interfaces.PatientService;
+import com.ugos.jiprolog.engine.JIPEngine;
+import com.ugos.jiprolog.engine.JIPQuery;
+import com.ugos.jiprolog.engine.JIPTerm;
+import com.ugos.jiprolog.engine.JIPVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -115,6 +119,59 @@ public class AdditionalExamController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
+    }
+
+    @PostMapping("/prolog/{patientId}")
+    public ModelAndView additionalExamProlog(@ModelAttribute("additionalExamDto") AdditionalExamDto additionalExamDto, @PathVariable String patientId, Model model) {
+        JIPEngine engine = new JIPEngine();
+
+        engine.consultFile("src/main/java/com/dermatology/data/program.pl");
+
+        List<String> symptoms = Arrays.stream(additionalExamDto.getSymptoms().split(",")).collect(Collectors.toList());
+        String symptomsProlog = additionalExamDto.getSymptoms();
+        JIPQuery query;
+        if (symptoms.size() == 0) {
+            return null;
+        } else if (symptoms.size() == 1)
+        {
+
+            query = engine.openSynchronousQuery("ispitivanja_preko_jednog_simptoma(L7,"+ symptomsProlog +")");
+
+        } else
+        {
+            query = engine.openSynchronousQuery("ispitivanja_preko_simptoma(["+ symptomsProlog +"], L9)");
+
+        }
+        //JIPQuery query = engine.openSynchronousQuery("dijagnoze_preko_simptoma([H|T],[papule])");
+
+
+
+        // pravila se mogu dodavati i tokom izvrsavanja (u runtime-u)
+        // assertz dodaje pravilo na kraj programa (aasserta dodaje na pocetak programa), na primer:
+        // engine.assertz(engine.getTermParser().parseTerm("sledbenik(X,Y) :- X is Y+1."));
+
+        JIPTerm solution;
+        while ( (solution = query.nextSolution()) != null) {
+            System.out.println("solution: " + solution);
+            System.out.println("unbounded: " +  solution.getUnboundedVariables().toString());
+            for (JIPVariable var: solution.getVariables()) {
+                String result = var.getValue().toString();
+                result = result.replace("'", "");
+                result = result.replace(".", "");
+                result = result.replace("(", "");
+                result = result.replace(")", "");
+                result = result.replace("[", "");
+                result = result.replace("]", "");
+                result = result.replace(",,", ",");
+
+                String[] additionalExams = result.split(",");
+                System.out.println(additionalExams);
+
+            }
+        }
+        return new ModelAndView("showDiseasePrediction", model.asMap());
+
+
     }
 
 }

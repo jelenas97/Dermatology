@@ -2,12 +2,11 @@
 :-include('diagnosis-medication.pl').
 :-include('symptom-diagnosis.pl').
 
-%sva ispitivanja za dijagnozu
-ispitivanja(L,B) :- findall(A,dodatni_pregled(B,A),L).
+
 
 
 %prikaz liste lekova za odredjenu dijagnozu
-lekovi(L,B) :- findall([V,A],lek(B,A,V),L).
+lekovi(L,B) :- findall([V,A],lek(B,A,V),L2),sort(L2,L).
 
 
 %postoji li odredjeni lijek za tu bolest u listi
@@ -37,8 +36,18 @@ isti_jedan_lijek(A,L) :- findall([C,B],lek(C,A,B),L).
 isti_jedan_lijek_sortirano(A,L) :- findall([C,B],lek(C,A,B),L1),sort(L1,L).
 
 dijagnoze_preko_simptoma([],[]).
-dijagnoze_preko_simptoma([H|T],L3) :- findall(C,dijagnoza(H,C),L1),
+dijagnoze_preko_simptoma([H|T],L3) :- findall([C,B],dijagnoza(H,C,B),L1),
 dijagnoze_preko_simptoma(T,L2),pripada(L1,L2,L3).
+
+dijagnoza_preko_jednog_simptoma(L5,B5) :- findall([V5,A5],dijagnoza(B5,A5,V5),L6),sort(L6,L5).
+
+
+ispitivanja_preko_simptoma([],[]).
+ispitivanja_preko_simptoma([H|T],L9) :- findall([C,B],dijagnoza(H,C,B),L10),
+ispitivanja_preko_simptoma(T,L11),pripada(L10,L11,L9).
+
+%sva ispitivanja za simptom
+ispitivanja_preko_jednog_simptoma(L7,B7) :- findall([V7,A7],dodatni_pregled(B7,A7,V7),L8),sort(L8,L7).
 
 
 pripada([],L,[]).

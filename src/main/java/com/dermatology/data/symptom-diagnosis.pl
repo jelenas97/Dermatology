@@ -27,7 +27,7 @@ dijagnoza(pojava_sitnih_kanalica, suga, 55).
 dijagnoza(stvaranje_zadebljanja, suga, 26).
 dijagnoza(isusena_koza, suga, 13).
 dijagnoza(crvenilo, suga, 15).
-dijagnoza(svarb, suga, 12).
+dijagnoza(svrab, suga, 12).
 dijagnoza(pojacan_svrab_nocu, suga, 35).
 dijagnoza(cvorici, suga, 12).
 dijagnoza(kraste, suga, 5).
