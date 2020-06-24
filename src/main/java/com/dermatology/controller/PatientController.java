@@ -28,7 +28,7 @@ public class PatientController {
         return "createPatient";
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ModelAndView show(Model model) {
 
         List<Patient> patients = patientService.getAll();
@@ -70,6 +70,7 @@ public class PatientController {
 
             for(int i = patients.size() - 10; i < patients.size(); i++) {
                 PatientDto newPatientDto = new PatientDto();
+                newPatientDto.setId(patients.get(i).getId());
                 newPatientDto.setFirstName(patients.get(i).getFirstName());
                 newPatientDto.setLastName(patients.get(i).getLastName());
                 newPatientDto.setGender(patients.get(i).getGender());
