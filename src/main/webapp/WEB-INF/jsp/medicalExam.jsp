@@ -28,13 +28,16 @@
        </div>
     </div>
 
-    <form:form method="post" cssStyle="display: none" action="/additionalExam/predict/${additionalExamDto.patientId}" id="additionalExam" modelAttribute="additionalExamDto">
+    <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+
+
+    <form:form cssStyle="display: none" action="/additionalExam/predict/${additionalExamDto.patientId}" id="additionalExam" target="hiddenFrame" modelAttribute="additionalExamDto">
         <div class="row" id="symptom">
             <div class="col-lg-4 offset-5">
-                <form:label path="symptoms" class="text-white mb-3 lead ml-5 mt-5">Symptom</form:label>
-                <form:select path="symptoms" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
+                <form:label path="symptoms" class="text-white mb-3 lead pl-4 ml-5 mt-5">Symptom</form:label>
+                <form:select path="symptoms" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" data-live-search="true" class="selectpicker col-lg-11 ml-5">
                     <c:forEach items="${symptoms}" var="symptom">
-                        <option class="w-50" value="${symptom}">${symptom}</option>
+                        <option class="col-lg-12" value="${symptom}">${symptom}</option>
                     </c:forEach>
                 </form:select>
             </div>
@@ -42,9 +45,9 @@
 
 
         <div class="row">
-            <div class="col-1 offset-8 mt-5" >
-                <a href="/additionalExam/predict/${additionalExamDto.patientId}" class="ml-5">
-                    <input id="showResult" type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
+            <div class="col-lg-2 offset-lg-8 mt-5 justify-content-end" >
+                <a class="pl-5">
+                    <button id="showResult" type="submit" class="btn border-0 mt-3">Predict</button>
                 </a>
             </div>
         </div>
@@ -55,31 +58,30 @@
     <form:form method="post" action="/disease/predict/${diseaseDto.patientId}" id="disease" modelAttribute="diseaseDto">
         <div class="row">
             <div class="col-lg-4 offset-5">
-                <form:label path="symptom" class="text-white mb-3 lead ml-5 mt-5">Symptom</form:label>
-                <form:select path="symptom" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" class="selectpicker w-100 ml-5">
+                <form:label path="additionalExam" class="text-white mb-3 lead ml-5 pl-4 mt-5">Additional Exam</form:label>
+                <form:select path="additionalExam" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" data-live-search="true" class="selectpicker col-lg-11 ml-5">
+                   <c:forEach items="${additionalExams}" var="additionalExam">
+                       <option class="col-lg-12" value="${additionalExam}">${additionalExam}</option>
+                   </c:forEach>
+                </form:select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 offset-5">
+                <form:label path="symptom" class="text-white mb-3 lead ml-5 pl-4 mt-5">Symptom</form:label>
+                <form:select path="symptom" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" data-live-search="true" data-size="15"  class="selectpicker col-lg-11 ml-5" >
                     <c:forEach items="${symptoms}" var="symptom">
-                        <option class="w-50" value="${symptom}">${symptom}</option>
+                        <option class="col-lg-12"value="${symptom}">${symptom}</option>
                     </c:forEach>
                 </form:select>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-4 offset-5">
-                <form:label path="additionalExam" class="text-white mb-3 lead ml-5 mt-5">Additional Exam</form:label>
-                <form:select path="additionalExam" multiple="true" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" class="selectpicker w-100 ml-5">
-                   <c:forEach items="${additionalExams}" var="additionalExam">
-                       <option class="w-50" value="${additionalExam}">${additionalExam}</option>
-                   </c:forEach>
-                </form:select>
-            </div>
-        </div>
-
 
         <div class="row">
-            <div class="col-1 offset-8 mt-5" >
-                <a href="/disease/predict/${diseaseDto.patientId}" class="ml-5">
-                    <input  type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
+            <div class="col-lg-2 offset-lg-8 mt-5 justify-content-end" >
+                <a href="/disease/predict/${diseaseDto.patientId}" class="pl-5">
+                    <input  type="submit" value="Predict" class="btn border-0 mt-3"/>
                 </a>
             </div>
         </div>
@@ -89,10 +91,10 @@
     <form:form method="post" cssStyle="display: none" action="/medicament/predict/${medicamentDto.patientId}" id="medicament" modelAttribute="medicamentDto">
         <div class="row">
             <div class="col-lg-4 offset-5">
-                <form:label path="disease" class="text-white mb-3 lead ml-5 mt-5">Disease</form:label>
-                <form:select path="disease" data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100 ml-5">
+                <form:label path="disease" class="text-white mb-3 lead ml-5 pl-4 mt-5">Disease</form:label>
+                <form:select path="disease" data-style="bg-white rounded-pill px-4 py-3 shadow-sm"  data-width="100%" data-live-search="true" class="selectpicker col-lg-11 ml-5">
                     <c:forEach items="${diseases}" var="disease">
-                        <option class="w-50" value="${disease}">${disease}</option>
+                        <option class="col-lg-12" value="${disease}">${disease}</option>
                     </c:forEach>
                 </form:select>
             </div>
@@ -100,14 +102,34 @@
 
 
         <div class="row">
-            <div class="col-1 offset-8 mt-5" >
-                <a href="/disease/predict/${medicamentDto.patientId}" class="ml-5">
-                    <input  type="submit" value="Predict" class="btn border-0 mt-3 ml-3 pl-5"/>
+            <div class="col-lg-2 offset-lg-8 mt-5 justify-content-end">
+                <a href="/disease/predict/${medicamentDto.patientId}" class="pl-5">
+                    <input type="submit" value="Predict" class="btn border-0 mt-3"/>
                 </a>
             </div>
         </div>
     </form:form>
 
+
+    <div class="row" id="result">
+        <div class="col-lg-6 offset-4">
+            <table class="table table-striped" id="tabela">
+                <tr>
+                    <td><b>Disease</b></td>
+                    <td><b>Probability</b></td>
+                </tr>
+
+                <body>
+                <c:forEach items="${foundCases}" var="result">
+                    <tr>
+                        <td>${result.disease}</td>
+                        <td>${result.probability} %</td>
+                    </tr>
+                </c:forEach>
+                </body>
+            </table>
+        </div>
+    </div>
 
 </div>
 
@@ -115,6 +137,8 @@
 </html>
 
 <script>
+
+
     $(document).ready(function(){
 
         $(function() {
@@ -123,6 +147,7 @@
                     $("#disease").show();
                     $("#medicament").hide();
                     $("#additionalExam").hide();
+
                 }
             );
 
@@ -131,6 +156,7 @@
                     $("#medicament").show();
                     $("#disease").hide();
                     $("#additionalExam").hide();
+
                 }
             );
 
@@ -140,8 +166,11 @@
                     $("#medicament").hide();
                     $("#disease").hide();
 
+
                 }
             );
+
+
 
         });
     });

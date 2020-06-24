@@ -35,7 +35,7 @@ public class CbrApplication implements StandardCBRApplication {
 
     public void cycle(CBRQuery query) throws ExecutionException {
         eval = NNScoringMethod.evaluateSimilarity(_caseBase.getCases(), query, simConfig);
-        eval = SelectCases.selectTopKRR(eval, 5);
+        eval = SelectCases.selectTopKRR(eval, 100);
     }
 
     public CBRCaseBase preCycle() throws ExecutionException {

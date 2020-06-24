@@ -2,10 +2,8 @@ package com.dermatology.controller;
 
 import com.dermatology.cbr.CbrApplication;
 import com.dermatology.dto.AdditionalExamDto;
-import com.dermatology.model.AdditionalExam;
-import com.dermatology.dto.DiseaseDto;
 import com.dermatology.dto.ExamDTO;
-import com.dermatology.dto.MedicamentDto;
+import com.dermatology.model.AdditionalExam;
 import com.dermatology.model.Exam;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
@@ -20,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,6 +47,7 @@ public class AdditionalExamController {
 
     @PostMapping("/predict/{patientId}")
     public ModelAndView newCase(@ModelAttribute("additionalExamDto") AdditionalExamDto additionalExamDto, @PathVariable String patientId, Model model) {
+
         try {
             List<Exam> examCases = this.examService.findAll();
 
@@ -75,23 +74,33 @@ public class AdditionalExamController {
 
             Collection<RetrievalResult> cases = application.predict();
             List<ExamDTO> foundCasesDTO = new ArrayList<>();
+            List<String> uniqueExams = new ArrayList<>();
+            DecimalFormat df = new DecimalFormat("####0.000");
             int i = 1;
             for (RetrievalResult res : cases) {
                 String[] s = res.get_case().getDescription().toString().split("caseId=");
                 Long id = Long.parseLong(s[1].split("}")[0]);
                 Exam e2 = this.examService.find(id);
                 ExamDTO dto = new ExamDTO(e2, res.getEval() * 100);
-                foundCasesDTO.add(dto);
+
+                if (!uniqueExams.contains(e2.getAdditionalExam().get(0).getName()) && uniqueExams.size() < 5) {
+                    uniqueExams.add(e2.getAdditionalExam().get(0).getName());
+                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval()))));
+                }
+
                 model.addAttribute("foundCases", foundCasesDTO);
-                System.out.println(i + " . pronadjeni slucaj je : " + dto);
 
             }
+            int i2 = 1;
+            for (ExamDTO e : foundCasesDTO) {
+                System.out.println(i2 + " . pronadjeni slucaj je : " + e.toString());
+                i2++;
+            }
         }catch(Exception e){
-            //null
             return null;
         }
         //foundCasesDTO
-        return new ModelAndView("showAdditionalExamPrediction", model.asMap());
+        return new ModelAndView("medicalExam", model.asMap());
     }
 
     @GetMapping()

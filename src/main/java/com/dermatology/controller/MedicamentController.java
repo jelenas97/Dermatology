@@ -25,6 +25,7 @@ import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
 import javax.validation.Valid;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,6 +47,7 @@ public class MedicamentController {
 
     @PostMapping("/predict/{patientId}")
     public ModelAndView predict(Model model, @Valid @ModelAttribute("medicationDto") MedicamentDto medicamentDto, @PathVariable String patientId){
+//    public void predict(@RequestBody MedicamentDto medicamentDto, @PathVariable String patientId){
         try {
             List<Exam> examCases = this.examService.findAll();
 
@@ -70,19 +72,31 @@ public class MedicamentController {
 
             Collection<RetrievalResult> cases = application.predict();
             List<ExamDTO> foundCasesDTO = new ArrayList<>();
+            List<String> medications = new ArrayList<>();
+            DecimalFormat df = new DecimalFormat("####0.000");
             int i = 1;
             for (RetrievalResult res : cases) {
                 String[] s = res.get_case().getDescription().toString().split("caseId=");
                 Long id = Long.parseLong(s[1].split("}")[0]);
                 Exam e2 = this.examService.find(id);
                 ExamDTO dto = new ExamDTO(e2, res.getEval() * 100);
-                foundCasesDTO.add(dto);
+                if (!medications.contains(e2.getMedications().get(0).getName()) && medications.size() < 5) {
+                    medications.add(e2.getMedications().get(0).getName());
+                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval()))));
+                }
                 model.addAttribute("foundCases", foundCasesDTO);
                 System.out.println(i + " . pronadjeni slucaj je : " + dto);
+
+            }
+            int i2 = 1;
+            for (ExamDTO e : foundCasesDTO) {
+                System.out.println(i2 + " . pronadjeni slucaj je : " + e.toString());
+                i2++;
             }
         } catch (Exception e) {
             return null;
         }
+
         return new ModelAndView("showMedicationPrediction", model.asMap());
     }
 

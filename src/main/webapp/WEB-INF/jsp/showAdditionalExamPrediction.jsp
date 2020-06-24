@@ -19,25 +19,7 @@
 </head>
 <body>
 <div class="bg">
-    <div class="row" id="result">
-        <div class="col-lg-6 offset-4">
-            <table class="table table-striped" id="tabela">
-                <tr>
-                    <td><b>Additional Exam</b></td>
-                    <td><b>Probability</b></td>
-                </tr>
 
-                <body>
-                <c:forEach items="${foundCases}" var="result">
-                    <tr>
-                        <td>${result.additionalExam} </td>
-                        <td>${result.probability} %</td>
-                    </tr>
-                </c:forEach>
-                </body>
-            </table>
-        </div>
-    </div>
 </div>
 </body>
 </html>
