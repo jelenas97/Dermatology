@@ -8,5 +8,5 @@ public interface ExamService {
 
     Exam find(Long id);
 
-    void save(Exam c);
+    Exam save(Exam c);
 }

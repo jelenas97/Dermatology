@@ -26,8 +26,8 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void save(Exam c) {
-        this.examRepository.save(c);
+    public Exam save(Exam c) {
+        return this.examRepository.save(c);
     }
 
 
