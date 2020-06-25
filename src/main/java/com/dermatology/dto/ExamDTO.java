@@ -18,15 +18,15 @@ import java.util.stream.Collectors;
 @ToString
 public class ExamDTO {
 
-    private String disease;
+    private String diseaseExam;
     private long patientId;
     private Double probability;
     private List<String> symptomList;
     private List<String> medications;
-    private List<String> additionalExam;
+    private List<String> additionalExams;
 
     public ExamDTO(Exam exam, Double probability) {
-        this.disease = exam.getDisease().getName();
+        this.diseaseExam = exam.getDisease().getName();
         this.probability = probability;
 
         this.symptomList = exam.getSymptomList().stream()
@@ -35,7 +35,7 @@ public class ExamDTO {
         this.medications = exam.getMedications().stream()
                 .map(Medication::getName)
                 .collect(Collectors.toList());
-        this.additionalExam = exam.getAdditionalExam().stream()
+        this.additionalExams = exam.getAdditionalExam().stream()
                 .map(AdditionalExam::getName)
                 .collect(Collectors.toList());
 

@@ -6,15 +6,14 @@ import com.dermatology.dto.AdditionalExamDto;
 import com.dermatology.dto.DiseaseDto;
 import com.dermatology.dto.ExamDTO;
 import com.dermatology.dto.MedicamentDto;
-import com.dermatology.model.Exam;
-import com.dermatology.model.Patient;
-import com.dermatology.model.PatientDescription;
+import com.dermatology.model.*;
 import com.dermatology.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
@@ -42,11 +41,58 @@ public class ExamController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private MedicationService medicationService;
 
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity newCase(@RequestBody ExamDTO examDTO) {
-    //public ResponseEntity newCase() {
+    @PostMapping("/{patientId}")
+    public String save(@ModelAttribute("exam") ExamDTO examDTO, @PathVariable String patientId){
+        Patient patient = patientService.getById(Long.parseLong(patientId));
+        Disease disease = diseaseService.findByName(examDTO.getDiseaseExam());
+
+        Exam exam = new Exam();
+        List<Symptom> symptoms = new ArrayList<>();
+        List<Medication> medications = new ArrayList<>();
+        List<AdditionalExam> additionalExams = new ArrayList<>();
+
+        for (String s : examDTO.getSymptomList()) {
+            Symptom symptom = new Symptom();
+            symptom.setName(s);
+            symptoms.add(symptom);
+            symptomService.save(symptom);
+        }
+
+        for (String s : examDTO.getMedications()) {
+            Medication medication = new Medication();
+            medication.setName(s);
+            medications.add(medication);
+            medicationService.save(medication);
+        }
+
+        for (String s : examDTO.getAdditionalExams()) {
+            AdditionalExam additionalExam = new AdditionalExam();
+            additionalExam.setName(s);
+            additionalExams.add(additionalExam);
+            additionalExamService.save(additionalExam);
+        }
+
+        exam.setPatient(patient);
+        exam.setDisease(disease);
+        exam.setMedications(medications);
+        exam.setAdditionalExam(additionalExams);
+        exam.setSymptomList(symptoms);
+
+        examService.save(exam);
+
+        return "hello";
+    }
+
+
+    @PostMapping
+    public ResponseEntity newCase(@ModelAttribute("exam") ExamDTO examDTO) {
+
+        System.out.println("eo");
+
         try {
 
             System.out.println("Dobijam dto" + examDTO);
@@ -102,6 +148,7 @@ public class ExamController {
     @GetMapping("/new/{id}")
     public String create(Model model, @PathVariable String id) {
 
+        ExamDTO examDTO = new ExamDTO();
         DiseaseDto diseaseDto = new DiseaseDto();
         MedicamentDto medicamentDto = new MedicamentDto();
         AdditionalExamDto additionalExamDto = new AdditionalExamDto();
@@ -113,12 +160,16 @@ public class ExamController {
         List<String> symptoms = symptomService.findDistinct();
         List<String> additionalExams = additionalExamService.findDistinct();
         List<String> diseases = diseaseService.findDistinct();
+        List<String> medications = medicationService.findDistinct();
 
+        model.addAttribute("exam", examDTO);
         model.addAttribute("symptoms", symptoms);
         model.addAttribute("diseases", diseases);
-        model.addAttribute("additionalExams", additionalExams);
         model.addAttribute("diseaseDto", diseaseDto);
+        model.addAttribute("medications", medications);
         model.addAttribute("medicamentDto", medicamentDto);
+        model.addAttribute("patientId", Long.parseLong(id));
+        model.addAttribute("additionalExams", additionalExams);
         model.addAttribute("additionalExamDto", additionalExamDto);
         return "medicalExam";
     }
