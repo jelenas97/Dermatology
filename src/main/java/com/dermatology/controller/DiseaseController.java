@@ -1,15 +1,15 @@
 package com.dermatology.controller;
 
 import com.dermatology.cbr.CbrApplication;
+import com.dermatology.dto.AdditionalExamDto;
 import com.dermatology.dto.DiseaseDto;
 import com.dermatology.dto.ExamDTO;
+import com.dermatology.dto.MedicamentDto;
 import com.dermatology.model.Disease;
 import com.dermatology.model.Exam;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
-import com.dermatology.service.interfaces.DiseaseService;
-import com.dermatology.service.interfaces.ExamService;
-import com.dermatology.service.interfaces.PatientService;
+import com.dermatology.service.interfaces.*;
 import com.ugos.jiprolog.engine.JIPEngine;
 import com.ugos.jiprolog.engine.JIPQuery;
 import com.ugos.jiprolog.engine.JIPTerm;
@@ -45,9 +45,15 @@ public class DiseaseController {
     @Autowired
     private DiseaseService diseaseService;
 
+    @Autowired
+    private SymptomService symptomService;
+
+    @Autowired
+    private AdditionalExamService additionalExamService;
+
 
     @PostMapping("/predict/{patientId}")
-    public ModelAndView predict(Model model, @Valid @ModelAttribute("diseaseDto")DiseaseDto diseaseDto, @PathVariable String patientId){
+    public String predict(Model model, @Valid @ModelAttribute("diseaseDto")DiseaseDto diseaseDto, @PathVariable String patientId){
 
         try {
             List<Exam> examCases = this.examService.findAll();
@@ -86,7 +92,7 @@ public class DiseaseController {
 
                 if (!diseases.contains(e2.getDisease().getName())) {
                     diseases.add(e2.getDisease().getName());
-                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval()))));
+                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval() * 100))));
                 }
 
                 model.addAttribute("foundCases", foundCasesDTO);
@@ -102,8 +108,28 @@ public class DiseaseController {
         } catch (Exception e) {
             return null;
         }
+        MedicamentDto medicamentDto = new MedicamentDto();
+        AdditionalExamDto additionalExamDto = new AdditionalExamDto();
+        diseaseDto.setPatientId(Long.parseLong(patientId));
+        medicamentDto.setPatientId(Long.parseLong(patientId));
+        additionalExamDto.setPatientId(Long.parseLong(patientId));
+
+        List<String> symptoms = symptomService.findDistinct();
+        List<String> additionalExams = additionalExamService.findDistinct();
+        List<String> diseases = diseaseService.findDistinct();
+
+        model.addAttribute("symptoms", symptoms);
+        model.addAttribute("diseases", diseases);
+        model.addAttribute("additionalExams", additionalExams);
+        model.addAttribute("diseaseDto", diseaseDto);
+        model.addAttribute("medicamentDto", medicamentDto);
+        model.addAttribute("additionalExamDto", additionalExamDto);
+        model.addAttribute("disease", new DiseaseDto());
+
+        model.addAttribute("exam", new ExamDTO());
+
         //foundCasesDTO
-        return new ModelAndView("showDiseasePrediction", model.asMap());
+        return "medicalExam";
     }
 
     @GetMapping(produces = "application/json")

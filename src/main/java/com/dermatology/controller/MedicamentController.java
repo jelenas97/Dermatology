@@ -1,15 +1,15 @@
 package com.dermatology.controller;
 
 import com.dermatology.cbr.CbrApplication;
+import com.dermatology.dto.AdditionalExamDto;
+import com.dermatology.dto.DiseaseDto;
 import com.dermatology.dto.ExamDTO;
 import com.dermatology.dto.MedicamentDto;
 import com.dermatology.model.Exam;
 import com.dermatology.model.Medication;
 import com.dermatology.model.Patient;
 import com.dermatology.model.PatientDescription;
-import com.dermatology.service.interfaces.ExamService;
-import com.dermatology.service.interfaces.MedicationService;
-import com.dermatology.service.interfaces.PatientService;
+import com.dermatology.service.interfaces.*;
 import com.ugos.jiprolog.engine.JIPEngine;
 import com.ugos.jiprolog.engine.JIPQuery;
 import com.ugos.jiprolog.engine.JIPTerm;
@@ -45,8 +45,17 @@ public class MedicamentController {
     @Autowired
     private MedicationService medicationService;
 
+    @Autowired
+    private DiseaseService diseaseService;
+
+    @Autowired
+    private SymptomService symptomService;
+
+    @Autowired
+    private AdditionalExamService additionalExamService;
+
     @PostMapping("/predict/{patientId}")
-    public ModelAndView predict(Model model, @Valid @ModelAttribute("medicationDto") MedicamentDto medicamentDto, @PathVariable String patientId){
+    public String predict(Model model, @Valid @ModelAttribute("medicationDto") MedicamentDto medicamentDto, @PathVariable String patientId){
 //    public void predict(@RequestBody MedicamentDto medicamentDto, @PathVariable String patientId){
         try {
             List<Exam> examCases = this.examService.findAll();
@@ -82,7 +91,7 @@ public class MedicamentController {
                 ExamDTO dto = new ExamDTO(e2, res.getEval() * 100);
                 if (!medications.contains(e2.getMedications().get(0).getName()) && medications.size() < 5) {
                     medications.add(e2.getMedications().get(0).getName());
-                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval()))));
+                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval() * 100))));
                 }
                 model.addAttribute("foundCases", foundCasesDTO);
                 System.out.println(i + " . pronadjeni slucaj je : " + dto);
@@ -97,7 +106,23 @@ public class MedicamentController {
             return null;
         }
 
-        return new ModelAndView("showMedicationPrediction", model.asMap());
+        DiseaseDto diseaseDto = new DiseaseDto();
+        AdditionalExamDto additionalExamDto = new AdditionalExamDto();
+        diseaseDto.setPatientId(Long.parseLong(patientId));
+        additionalExamDto.setPatientId(Long.parseLong(patientId));
+
+        List<String> symptoms = symptomService.findDistinct();
+        List<String> additionalExams = additionalExamService.findDistinct();
+        List<String> diseases = diseaseService.findDistinct();
+
+        model.addAttribute("symptoms", symptoms);
+        model.addAttribute("diseases", diseases);
+        model.addAttribute("additionalExams", additionalExams);
+        model.addAttribute("diseaseDto", diseaseDto);
+        model.addAttribute("medicamentDto", medicamentDto);
+        model.addAttribute("additionalExamDto", additionalExamDto);
+        model.addAttribute("exam", new ExamDTO());
+        return "medicalExam";
     }
 
     @GetMapping()

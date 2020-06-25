@@ -91,7 +91,7 @@ public class AdditionalExamController {
 
                 if (!uniqueExams.contains(e2.getAdditionalExam().get(0).getName()) && uniqueExams.size() < 5) {
                     uniqueExams.add(e2.getAdditionalExam().get(0).getName());
-                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval()))));
+                    foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval() * 100))));
                 }
 
                 model.addAttribute("foundCases", foundCasesDTO);
@@ -123,6 +123,7 @@ public class AdditionalExamController {
         model.addAttribute("diseaseDto", diseaseDto);
         model.addAttribute("medicamentDto", medicamentDto);
         model.addAttribute("additionalExamDto", additionalExamDto);
+        model.addAttribute("exam", new ExamDTO());
         //foundCasesDTO
         return "medicalExam";
     }
