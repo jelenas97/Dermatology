@@ -48,7 +48,6 @@ public class DiseaseController {
 
     @PostMapping("/predict/{patientId}")
     public ModelAndView predict(Model model, @Valid @ModelAttribute("diseaseDto")DiseaseDto diseaseDto, @PathVariable String patientId){
-        //public void predict(@RequestBody DiseaseDto diseaseDto, @PathVariable String patientId){
 
         try {
             List<Exam> examCases = this.examService.findAll();

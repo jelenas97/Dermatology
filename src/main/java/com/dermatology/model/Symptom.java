@@ -27,7 +27,4 @@ public class Symptom {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public Exam exam;
 
-
-
-
 }
