@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/background.css">
 </head>
 <body>
-<div class="bg">
+<div class="bg" name = "main">
 
     <div class="row mb-5 pt-5">
        <div class="col-4 offset-5">
@@ -28,7 +28,7 @@
        </div>
     </div>
 
-    <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+    <iframe id = "iFrame" name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
 
 
     <form:form cssStyle="display: none" action="/additionalExam/predict/${additionalExamDto.patientId}" id="additionalExam" target="hiddenFrame" modelAttribute="additionalExamDto">
@@ -111,8 +111,8 @@
     </form:form>
 
 
-    <div class="row" id="result">
-        <div class="col-lg-6 offset-4">
+    <div class="row">
+        <div class="col-lg-4 offset-5">
             <table class="table table-striped" id="tabela">
                 <tr>
                     <td><b>Disease</b></td>
@@ -122,7 +122,7 @@
                 <body>
                 <c:forEach items="${foundCases}" var="result">
                     <tr>
-                        <td>${result.disease}</td>
+                        <td>${result.additionalExam}</td>
                         <td>${result.probability} %</td>
                     </tr>
                 </c:forEach>
@@ -130,6 +130,7 @@
             </table>
         </div>
     </div>
+
 
 </div>
 
@@ -140,6 +141,14 @@
 
 
     $(document).ready(function(){
+
+        setInterval(function() {
+            var iframe = document.getElementById('iFrame');
+            var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+
+            var table2 = innerDoc.getElementById('tabela');
+            document.getElementById('tabela').innerHTML = table2.innerHTML;
+        }, 1000);
 
         $(function() {
             $("#diseaseButton").click( function()
@@ -169,8 +178,6 @@
 
                 }
             );
-
-
 
         });
     });
