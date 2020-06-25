@@ -51,38 +51,32 @@ public class ExamController {
         Disease disease = diseaseService.findByName(examDTO.getDiseaseExam());
 
         Exam exam = new Exam();
-        List<Symptom> symptoms = new ArrayList<>();
-        List<Medication> medications = new ArrayList<>();
-        List<AdditionalExam> additionalExams = new ArrayList<>();
+
+        exam.setPatient(patient);
+        exam.setDisease(disease);
+
+        Exam newExam = examService.save(exam);
 
         for (String s : examDTO.getSymptomList()) {
             Symptom symptom = new Symptom();
             symptom.setName(s);
-            symptoms.add(symptom);
+            symptom.setExam(newExam);
             symptomService.save(symptom);
         }
 
         for (String s : examDTO.getMedications()) {
             Medication medication = new Medication();
+            medication.setExam(newExam);
             medication.setName(s);
-            medications.add(medication);
             medicationService.save(medication);
         }
 
         for (String s : examDTO.getAdditionalExams()) {
             AdditionalExam additionalExam = new AdditionalExam();
             additionalExam.setName(s);
-            additionalExams.add(additionalExam);
+            additionalExam.setExam(newExam);
             additionalExamService.save(additionalExam);
         }
-
-        exam.setPatient(patient);
-        exam.setDisease(disease);
-        exam.setMedications(medications);
-        exam.setAdditionalExam(additionalExams);
-        exam.setSymptomList(symptoms);
-
-        examService.save(exam);
 
         return "hello";
     }
