@@ -33,6 +33,12 @@ lek(kontaktni_dermatitis,etilenediamin,20).
 lek(kontaktni_dermatitis,prednizon,40).
 lek(kontaktni_dermatitis,difenhidramin,15).
 
+lek(rosacea,azelaid_gel,90).
+lek(rosacea,oxymetazoline,85).
+lek(rosacea,clindamycin,80).
+lek(rosacea,resorcinol,67).
+lek(rosacea,sulphur,70).
+
 lek(akne,eritromicin,100).
 lek(akne,benzoil_peroksid,95).
 lek(akne,benzoil_eritromicin,95).
@@ -58,3 +64,4 @@ lek(akne,doksiciklin,20).
 lek(akne,minociklin,34).
 lek(akne,izotretinoin,20).
 lek(akne,timerosal,10).
+
