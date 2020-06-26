@@ -30,7 +30,7 @@
                 <body>
                 <c:forEach items="${foundCases}" var="result">
                     <tr>
-                        <td>${result.disease}</td>
+                        <td>${result.diseaseExam}</td>
                         <td>${result.probability} %</td>
                     </tr>
                 </c:forEach>

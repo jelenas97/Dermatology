@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/background.css">
 </head>
 <body>
-<div class="bg">
+<div class="bg" name = "main">
 
 
     <div class="row">
@@ -49,12 +49,15 @@
                    </div>
                </div>
 
+               <iframe id = "iFrame" name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+
+
                <div class="row" id="diseaseExam">
                    <div class="col-lg-12 mt-5">
                        <form:label path="diseaseExam" class="text-white lead pl-4 ml-5 mb-3">Disease</form:label>
                        <form:select path="diseaseExam" multiple="false" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" data-live-search="true" class="selectpicker col-lg-11 ml-5">
-                           <c:forEach items="${diseases}" var="disease">
-                               <option class="col-lg-12" value="${disease}">${disease}</option>
+                           <c:forEach items="${diseases}" var="disease1">
+                               <option class="col-lg-12" value="${disease1}">${disease1}</option>
                            </c:forEach>
                        </form:select>
                    </div>
@@ -115,7 +118,7 @@
 
 
 
-            <form:form method="post" action="/disease/predict/${diseaseDto.patientId}" id="disease" modelAttribute="diseaseDto">
+            <form:form method="post" action="/disease/predict/${diseaseDto.patientId}" id="disease"  target="hiddenFrame" modelAttribute="diseaseDto">
                 <div class="row">
                     <div class="col-lg-12 mt-5">
                         <form:label path="additionalExam" class="text-white lead ml-5 pl-4 mb-3">Additional Exam</form:label>
@@ -148,7 +151,7 @@
             </form:form>
 
 
-            <form:form method="post" cssStyle="display: none" action="/medicament/predict/${medicamentDto.patientId}" id="medicament" modelAttribute="medicamentDto">
+            <form:form method="post" cssStyle="display: none" action="/medicament/predict/${medicamentDto.patientId}" id="medicament" target="hiddenFrame" modelAttribute="medicamentDto">
                 <div class="row">
                     <div class="col-lg-12 mt-5">
                         <form:label path="disease" class="text-white lead ml-5 pl-4 mb-3">Disease</form:label>
@@ -171,47 +174,68 @@
             </form:form>
 
 
-            <div class="row">
-                <div class="col-lg-4 offset-lg-2">
-                    <table class="table table-striped mt-5">
-                        <tr>
-                            <td><b>Disease</b></td>
-                            <td><b>Probability</b></td>
-                        </tr>
-
-                        <body>
-                        <c:forEach items="${foundCases}" var="result">
+                <div class="row" id="tabelaAdditionalDiv" style="display: none;">
+                    <div class="col-lg-4 offset-5">
+                        <table class="table table-striped" id="tabelaAdditional">
                             <tr>
-                                <td>${result.disease}</td>
-                                <td>${result.probability} %</td>
+                                <td><b>Additional exam</b></td>
+                                <td><b>Probability</b></td>
                             </tr>
-                        </c:forEach>
-                        </body>
-                    </table>
+
+                            <body>
+                            <c:forEach items="${foundCases}" var="result">
+                                <tr>
+                                    <td>${result.additionalExams}</td>
+                                    <td>${result.probability} %</td>
+                                </tr>
+                            </c:forEach>
+                            </body>
+                        </table>
+                    </div>
                 </div>
 
-                <div class="col-lg-4 offset-lg-1">
-                    <table class="table table-striped mt-5">
-                        <tr>
-                            <td><b>Disease</b></td>
-                            <td><b>Probability</b></td>
-                        </tr>
-
-                        <body>
-                        <c:forEach items="${foundCases}" var="result">
+                <div class="row" id="tabelaDiseaseDiv">
+                    <div class="col-lg-4 offset-5">
+                        <table class="table table-striped" id="tabelaDisease">
                             <tr>
-                                <td>${result.disease}</td>
-                                <td>${result.probability} %</td>
+                                <td><b>Disease</b></td>
+                                <td><b>Probability</b></td>
                             </tr>
-                        </c:forEach>
-                        </body>
-                    </table>
+
+                            <body>
+                            <c:forEach items="${foundCases}" var="result">
+                                <tr>
+                                    <td>${result.diseaseExam}</td>
+                                    <td>${result.probability} %</td>
+                                </tr>
+                            </c:forEach>
+                            </body>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-       </div>
+                <div class="row" id="tabelaMedicamentDiv" style="display: none;">
+                    <div class="col-lg-4 offset-5">
+                        <table class="table table-striped" id="tabelaMedicament">
+                            <tr>
+                                <td><b>Medicament</b></td>
+                                <td><b>Probability</b></td>
+                            </tr>
 
-</div>
+                            <body>
+                            <c:forEach items="${foundCases}" var="result">
+                                <tr>
+                                    <td>${result.medications} </td>
+                                    <td>${result.probability} %</td>
+                                </tr>
+                            </c:forEach>
+                            </body>
+                        </table>
+                    </div>
+                </div>
+
+        </div>
+    </div>
 </div>
 
 </body>
@@ -222,36 +246,167 @@
 
     $(document).ready(function(){
 
+        setInterval(function() {
+            var iframe = document.getElementById('iFrame');
+            var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+
+            var table2 = innerDoc.getElementById('tabelaAdditional');
+            var table3 = innerDoc.getElementById('tabelaDisease');
+            var table4 = innerDoc.getElementById('tabelaMedicament');
+
+            if(table2 != null) {
+                document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
+            }
+            if(table3 != null) {
+                document.getElementById('tabelaDisease').innerHTML = table3.innerHTML;
+            }
+            if(table4 != null) {
+                document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+            }
+
+        }, 500);
+
         $(function() {
             $("#diseaseButton").click( function()
                 {
-                    $("#disease").show();
+                    var iframe = document.getElementById('iFrame');
+                    var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+
+                    if(innerDoc.getElementById('tabelaDisease') != null) {
+                        innerDoc.getElementById('tabelaDisease').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+
+                        innerDoc.getElementById('tabelaMedicament').innerHTML = "<tr>\n" +
+                            "                                <td><b>Medicament</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+
+                        innerDoc.getElementById('tabelaAdditional').innerHTML = " <tr>\n" +
+                            "                                <td><b>Additional exam</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+                        var table2 = innerDoc.getElementById('tabelaAdditional');
+                        var table3 = innerDoc.getElementById('tabelaDisease');
+                        var table4 = innerDoc.getElementById('tabelaMedicament');
+
+                        document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
+                        document.getElementById('tabelaDisease').innerHTML = table3.innerHTML;
+                        document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+                    }
+
                     $("#medicament").hide();
+                    $("#tabelaMedicamentDiv").hide();
+
                     $("#additionalExam").hide();
+                    $("#tabelaAdditionalDiv").hide();
+
+                    $("#disease").show();
+                    $("#tabelaDiseaseDiv").show();
+
 
                 }
             );
 
             $("#medicamentButton").click( function()
                 {
-                    $("#medicament").show();
+
+                    var iframe = document.getElementById('iFrame');
+                    var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+                    if(innerDoc.getElementById('tabelaDisease') != null) {
+
+                        innerDoc.getElementById('tabelaDisease').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+
+                        innerDoc.getElementById('tabelaMedicament').innerHTML = "<tr>\n" +
+                            "                                <td><b>Medicament</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+
+                        innerDoc.getElementById('tabelaAdditional').innerHTML = " <tr>\n" +
+                            "                                <td><b>Additional exam</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+                        var table2 = innerDoc.getElementById('tabelaAdditional');
+                        var table3 = innerDoc.getElementById('tabelaDisease');
+                        var table4 = innerDoc.getElementById('tabelaMedicament');
+
+                        document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
+                        document.getElementById('tabelaDisease').innerHTML = table3.innerHTML;
+                        document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+                    }
                     $("#disease").hide();
+                    $("#tabelaDiseaseDiv").hide();
+
                     $("#additionalExam").hide();
+                    $("#tabelaAdditionalDiv").hide();
+
+                    $("#medicament").show();
+                    $("#tabelaMedicamentDiv").show();
 
                 }
             );
 
             $("#additionalExamButton").click( function()
                 {
-                    $("#additionalExam").show();
-                    $("#medicament").hide();
-                    $("#disease").hide();
+                    var iframe = document.getElementById('iFrame');
+                    var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+                    if(innerDoc.getElementById('tabelaDisease') != null) {
+                        innerDoc.getElementById('tabelaDisease').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
 
+                        innerDoc.getElementById('tabelaMedicament').innerHTML = "<tr>\n" +
+                            "                                <td><b>Medicament</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+
+                        innerDoc.getElementById('tabelaAdditional').innerHTML = " <tr>\n" +
+                            "                                <td><b>Additional exam</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+                        var table2 = innerDoc.getElementById('tabelaAdditional');
+                        var table3 = innerDoc.getElementById('tabelaDisease');
+                        var table4 = innerDoc.getElementById('tabelaMedicament');
+
+                        document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
+                        document.getElementById('tabelaDisease').innerHTML = table3.innerHTML;
+                        document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+                    }
+
+                    $("#medicament").hide();
+                    $("#tabelaMedicamentDiv").hide();
+
+                    $("#disease").hide();
+                    $("#tabelaDiseaseDiv").hide();
+
+                    $("#additionalExam").show();
+                    $("#tabelaAdditionalDiv").show();
 
                 }
             );
-
-
 
         });
     });
