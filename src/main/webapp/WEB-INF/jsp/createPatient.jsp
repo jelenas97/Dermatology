@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-2 offset-5">
             <form:label path="firstName" class="text-white ml-5 mt-5">First Name</form:label>
-            <form:input path="firstName" class="input-lg rounded-pill border-0 bg-white ml-5 pl-5 form-control"/>
+            <form:input path="firstName" class="input-lg rounded-pill border-0 bg-white ml-5 form-control"/>
         </div>
 
         <div class="col-lg-2">
@@ -52,7 +52,7 @@
 
     <div class="row">
         <div class="col-1 offset-8 mt-5" >
-            <a class="ml-5"><input type="submit" value="Save" class="btn border-0 mt-3 ml-3 pl-5"/></a>
+            <a class="ml-5"><input type="submit" value="Save" style="opacity: 70%; width: 80px" class="btn btn-dark border-0 mt-3 ml-5"/></a>
         </div>
     </div>
     </form:form>

@@ -160,6 +160,9 @@
                         <form:label path="disease" class="text-white lead ml-5 pl-4 mb-3">Disease</form:label>
                         <form:select path="disease" data-style="bg-white rounded-pill px-4 py-3 shadow-sm"  data-width="100%" data-live-search="true" class="selectpicker col-lg-11 ml-5">
                             <c:forEach items="${diseases}" var="disease">
+                                <option selected="selected" disabled="disabled" style="color: #5a6268" hidden="hidden">
+                                    Nothing selected
+                                </option>
                                 <option class="col-lg-12" value="${disease}">${disease}</option>
                             </c:forEach>
                         </form:select>
