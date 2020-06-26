@@ -30,5 +30,10 @@ public class ExamServiceImpl implements ExamService {
         return this.examRepository.save(c);
     }
 
+    @Override
+    public List<Exam> getExamForPatient(Long id) {
+        return examRepository.getExamForPatient(id);
+    }
+
 
 }

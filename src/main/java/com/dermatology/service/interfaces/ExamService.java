@@ -9,4 +9,6 @@ public interface ExamService {
     Exam find(Long id);
 
     Exam save(Exam c);
+
+    List<Exam> getExamForPatient(Long id);
 }
