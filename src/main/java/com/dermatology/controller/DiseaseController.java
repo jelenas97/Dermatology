@@ -26,10 +26,7 @@ import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
 import javax.validation.Valid;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -108,6 +105,97 @@ public class DiseaseController {
         } catch (Exception e) {
             return null;
         }
+
+        //prolog
+        JIPEngine engine = new JIPEngine();
+
+        engine.consultFile("src/main/java/com/dermatology/data/program.pl");
+
+        List<String> symptomsFront = Arrays.stream(diseaseDto.getSymptom().split(",")).collect(Collectors.toList());
+        String symptomsProlog = diseaseDto.getSymptom();
+        JIPQuery query;
+        List<ExamDTO> foundCases2DTO = new ArrayList<>();
+        try {
+            if (symptomsFront.size() == 0) {
+                return null;
+            } else if (symptomsFront.size() == 1) {
+
+                query = engine.openSynchronousQuery("dijagnoza_preko_jednog_simptoma(L5," + symptomsProlog + ")");
+                JIPTerm solution;
+                while ((solution = query.nextSolution()) != null) {
+                    System.out.println("solution: " + solution);
+                    System.out.println("unbounded: " + solution.getUnboundedVariables().toString());
+                    for (JIPVariable var : solution.getVariables()) {
+                        String result = var.getValue().toString();
+                        result = result.replace("'", "");
+                        result = result.replace(".", "");
+                        result = result.replace("(", "");
+                        result = result.replace(")", "");
+                        result = result.replace(",,", ",");
+                        result = result.replace(",[", ";");
+                        result = result.replace("],", "");
+                        result = result.replace("];", "");
+                        result = result.replace("]", "");
+
+
+                        String[] diseases = result.split(";");
+                        System.out.println(diseases);
+                        for (String disease : diseases) {
+                            String[] finalList = disease.split(",");
+                            ExamDTO examRbr = new ExamDTO();
+                            examRbr.setProbability(Double.parseDouble(finalList[0]));
+                            examRbr.setDiseaseExam(finalList[1]);
+                            foundCases2DTO.add(examRbr);
+                        }
+                    }
+                }
+            } else {
+                query = engine.openSynchronousQuery("dijagnoze_preko_simptoma([" + symptomsProlog + "], L3)");
+                JIPTerm solution;
+                while ((solution = query.nextSolution()) != null) {
+                    System.out.println("solution: " + solution);
+                    System.out.println("unbounded: " + solution.getUnboundedVariables().toString());
+                    for (JIPVariable var : solution.getVariables()) {
+                        String result = var.getValue().toString();
+                        result = result.replace("'", "");
+                        result = result.replace(".", "");
+                        result = result.replace("(", "");
+                        result = result.replace(")", "");
+                        result = result.replace(",,", ",");
+                        result = result.replace(",[", ";");
+                        result = result.replace("],", "");
+                        result = result.replace("];", "");
+                        result = result.replace("]", "");
+
+
+                        String[] diseases = result.split(";");
+                        System.out.println(diseases);
+                        for (String disease : diseases) {
+                            String[] finalList = disease.split(",");
+                            ExamDTO examRbr = new ExamDTO();
+                            examRbr.setProbability(Double.parseDouble(finalList[1]));
+                            examRbr.setDiseaseExam(finalList[0]);
+                            foundCases2DTO.add(examRbr);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        foundCases2DTO.sort(Comparator.comparing(ExamDTO::getProbability).reversed());
+        List<ExamDTO> foundCases2DTOsplit = new ArrayList<ExamDTO>();
+        int brojac = 0;
+        for(ExamDTO exam : foundCases2DTO) {
+            if(brojac != 5) {
+                foundCases2DTOsplit.add(exam);
+                brojac++;
+            }
+
+        }
+        model.addAttribute("foundCasesRbr", foundCases2DTOsplit);
+
         MedicamentDto medicamentDto = new MedicamentDto();
         AdditionalExamDto additionalExamDto = new AdditionalExamDto();
         diseaseDto.setPatientId(Long.parseLong(patientId));
