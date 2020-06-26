@@ -14,6 +14,7 @@
 a:hover {
     text-decoration: none;
     text-underline: none;
+    color: gray;
 }
 
 #patientInfo tbody tr td {
