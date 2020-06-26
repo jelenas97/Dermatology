@@ -37,9 +37,8 @@
         <div class="col-lg-2 offset-5">
             <form:label path="gender" class="text-white ml-5 mt-5">Gender</form:label>
             <form:select path="gender" data-style="form-control rounded-pill bg-white border-0" class="selectpicker gender ml-5 form-control rounded-pill">
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
+                <option>Musko</option>
+                <option>Zensko</option>
             </form:select>
         </div>
 

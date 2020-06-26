@@ -12,8 +12,9 @@ lek(suga,sumporna_krema,30).
 lek(suga,loratadin,40).
 lek(suga,antihistamin,25).
 
-lek(kontaktni_dermatitis,clobetasol,100).
-lek(kontaktni_dermatitis,100).
+lek(kontaktni_dermatitis,prometazin,100).
+lek(kontaktni_dermatitis,clobetasol,90).
+lek(kontaktni_dermatitis,90).
 lek(kontaktni_dermatitis,triamcinolone,90).
 lek(kontaktni_dermatitis,betametazon_krema,85).
 lek(kontaktni_dermatitis,benzocaine,85).
@@ -26,7 +27,6 @@ lek(kontaktni_dermatitis,neomicin,10).
 lek(kontaktni_dermatitis,penicilin,10).
 lek(kontaktni_dermatitis,sulfonamidi,40).
 lek(kontaktni_dermatitis,difenhidramin,20).
-lek(kontaktni_dermatitis,prometazin,15).
 lek(kontaktni_dermatitis,timerosal,20).
 lek(kontaktni_dermatitis,heksaklorofen,25).
 lek(kontaktni_dermatitis,etilenediamin,20).
