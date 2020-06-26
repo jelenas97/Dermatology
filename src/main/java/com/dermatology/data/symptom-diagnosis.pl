@@ -21,13 +21,21 @@ dijagnoza(otvorene_rane, akne, 15).
 dijagnoza(potkozne_bubuljice, akne, 24).
 dijagnoza(pristici, akne, 16).
 
+dijagnoza(crvene_fleke, rosacea, 95).
+dijagnoza(crvenilo, rosacea, 80).
+dijagnoza(papule, rosacea, 33).
+dijagnoza(krvarenje, rosacea, 87).
+dijagnoza(pustule, rosacea, 13).
+dijagnoza(pristici, rosacea, 16).
+
 dijagnoza(pristici, suga, 36).
 dijagnoza(osip, suga, 22).
 dijagnoza(pojava_sitnih_kanalica, suga, 55).
 dijagnoza(stvaranje_zadebljanja, suga, 26).
 dijagnoza(isusena_koza, suga, 13).
 dijagnoza(crvenilo, suga, 15).
-dijagnoza(svarb, suga, 12).
+dijagnoza(svrab, suga, 12).
 dijagnoza(pojacan_svrab_nocu, suga, 35).
 dijagnoza(cvorici, suga, 12).
 dijagnoza(kraste, suga, 5).
+
