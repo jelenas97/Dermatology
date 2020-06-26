@@ -26,10 +26,7 @@ import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
 import javax.validation.Valid;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -94,7 +91,6 @@ public class MedicamentController {
                     foundCasesDTO.add(new ExamDTO(e2, Double.parseDouble(df.format(res.getEval() * 100))));
                 }
                 model.addAttribute("foundCases", foundCasesDTO);
-                System.out.println(i + " . pronadjeni slucaj je : " + dto);
 
             }
             int i2 = 1;
@@ -106,6 +102,69 @@ public class MedicamentController {
             return null;
         }
 
+        JIPEngine engine = new JIPEngine();
+
+        engine.consultFile("src/main/java/com/dermatology/data/program.pl");
+
+        List<String> diseases = Arrays.stream(medicamentDto.getDisease().split(",")).collect(Collectors.toList());
+        String diseasesProlog = medicamentDto.getDisease();
+        List<ExamDTO> foundCases2DTO = new ArrayList<>();
+        JIPQuery query;
+        if (diseases.size() == 0) {
+            return null;
+        } else if (diseases.size() == 1)
+        {
+
+            query = engine.openSynchronousQuery("lekovi(L," + diseasesProlog + ")");
+
+        } else
+        {
+            return null;
+        }
+
+        JIPTerm solution;
+        while ( (solution = query.nextSolution()) != null) {
+            System.out.println("solution: " + solution);
+            System.out.println("unbounded: " +  solution.getUnboundedVariables().toString());
+            for (JIPVariable var: solution.getVariables()) {
+                String result = var.getValue().toString();
+                result = result.replace("'", "");
+                result = result.replace(".", "");
+                result = result.replace("(", "");
+                result = result.replace(")", "");
+                result = result.replace(",,", ",");
+                result = result.replace(",[", ";");
+                result = result.replace("],", "");
+                result = result.replace("];", "");
+                result = result.replace("]", "");
+
+
+                String[] medications = result.split(";");
+                System.out.println(medications);
+
+                for (String medication : medications) {
+                    String[] finalList = medication.split(",");
+                    ExamDTO examRbr = new ExamDTO();
+                    examRbr.setProbability(Double.parseDouble(finalList[0]));
+                    examRbr.setMedications(new ArrayList<>());
+                    examRbr.getMedications().add(finalList[1]);
+                    foundCases2DTO.add(examRbr);
+                }
+            }
+        }
+        foundCases2DTO.sort(Comparator.comparing(ExamDTO::getProbability).reversed());
+        List<ExamDTO> foundCases2DTOsplit = new ArrayList<ExamDTO>();
+        int brojac = 0;
+        for(ExamDTO exam : foundCases2DTO) {
+            if(brojac != 5) {
+                foundCases2DTOsplit.add(exam);
+                brojac++;
+            }
+
+        }
+        model.addAttribute("foundCasesRbr", foundCases2DTOsplit);
+
+
         DiseaseDto diseaseDto = new DiseaseDto();
         AdditionalExamDto additionalExamDto = new AdditionalExamDto();
         diseaseDto.setPatientId(Long.parseLong(patientId));
@@ -113,7 +172,7 @@ public class MedicamentController {
 
         List<String> symptoms = symptomService.findDistinct();
         List<String> additionalExams = additionalExamService.findDistinct();
-        List<String> diseases = diseaseService.findDistinct();
+        diseases = diseaseService.findDistinct();
 
         model.addAttribute("symptoms", symptoms);
         model.addAttribute("diseases", diseases);

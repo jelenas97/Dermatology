@@ -43,7 +43,7 @@ dijagnoza_preko_jednog_simptoma(L5,B5) :- findall([V5,A5],dijagnoza(B5,A5,V5),L6
 
 
 ispitivanja_preko_simptoma([],[]).
-ispitivanja_preko_simptoma([H|T],L9) :- findall([C,B],dijagnoza(H,C,B),L10),
+ispitivanja_preko_simptoma([H|T],L9) :- findall([C,B],dodatni_pregled(H,C,B),L10),
 ispitivanja_preko_simptoma(T,L11),pripada(L10,L11,L9).
 
 %sva ispitivanja za simptom

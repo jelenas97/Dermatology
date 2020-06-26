@@ -24,12 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
+import javax.swing.tree.ExpandVetoException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.reverse;
 
 @Controller
 @RequestMapping(value = "additionalExam")
@@ -105,6 +105,111 @@ public class AdditionalExamController {
         }catch(Exception e){
             return null;
         }
+
+        //rbr
+
+        JIPEngine engine = new JIPEngine();
+
+        engine.consultFile("src/main/java/com/dermatology/data/program.pl");
+
+        List<String> symptomsFront = Arrays.stream(additionalExamDto.getSymptoms().split(",")).collect(Collectors.toList());
+        String symptomsProlog = additionalExamDto.getSymptoms();
+        JIPQuery query;
+        List<ExamDTO> foundCases2DTO = new ArrayList<>();
+
+        if (symptomsFront.size() == 0) {
+            return null;
+        } else if (symptomsFront.size() == 1)
+        {
+            try {
+                query = engine.openSynchronousQuery("ispitivanja_preko_jednog_simptoma(L7," + symptomsProlog + ")");
+
+                JIPTerm solution;
+                while ((solution = query.nextSolution()) != null) {
+                    System.out.println("solution: " + solution);
+                    System.out.println("unbounded: " + solution.getUnboundedVariables().toString());
+                    for (JIPVariable var : solution.getVariables()) {
+                        String result = var.getValue().toString();
+                        result = result.replace("'", "");
+                        result = result.replace(".", "");
+                        result = result.replace("(", "");
+                        result = result.replace(")", "");
+                        result = result.replace(",,", ",");
+                        result = result.replace(",[", ";");
+                        result = result.replace("],", "");
+                        result = result.replace("];", "");
+                        result = result.replace("]", "");
+
+
+                        String[] additionalExams = result.split(";");
+                        System.out.println(additionalExams);
+                        for (String additionalExam : additionalExams) {
+                                String[] finalList = additionalExam.split(",");
+                                ExamDTO examRbr = new ExamDTO();
+                                examRbr.setProbability(Double.parseDouble(finalList[0]));
+                                examRbr.setAdditionalExams(new ArrayList<String>());
+                                examRbr.getAdditionalExams().add(finalList[1]);
+                                foundCases2DTO.add(examRbr);
+
+                        }
+                    }
+                }
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                query = engine.openSynchronousQuery("ispitivanja_preko_simptoma([" + symptomsProlog + "], L9)");
+
+                JIPTerm solution;
+                while ((solution = query.nextSolution()) != null) {
+                    System.out.println("solution: " + solution);
+                    System.out.println("unbounded: " + solution.getUnboundedVariables().toString());
+                    for (JIPVariable var : solution.getVariables()) {
+                        String result = var.getValue().toString();
+                        result = result.replace("'", "");
+                        result = result.replace(".", "");
+                        result = result.replace("(", "");
+                        result = result.replace(")", "");
+                        result = result.replace(",,", ",");
+                        result = result.replace(",[", ";");
+                        result = result.replace("],", "");
+                        result = result.replace("];", "");
+                        result = result.replace("]", "");
+
+
+                        String[] additionalExams = result.split(";");
+                        System.out.println(additionalExams);
+                        for (String additionalExam : additionalExams) {
+
+                                String[] finalList = additionalExam.split(",");
+                                ExamDTO examRbr = new ExamDTO();
+                                examRbr.setProbability(Double.parseDouble(finalList[1]));
+                                examRbr.setAdditionalExams(new ArrayList<String>());
+                                examRbr.getAdditionalExams().add(finalList[0]);
+                                foundCases2DTO.add(examRbr);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        foundCases2DTO.sort(Comparator.comparing(ExamDTO::getProbability).reversed());
+        List<ExamDTO> foundCases2DTOsplit = new ArrayList<ExamDTO>();
+        int brojac = 0;
+        for(ExamDTO exam : foundCases2DTO) {
+            if(brojac != 5) {
+                foundCases2DTOsplit.add(exam);
+                brojac++;
+            }
+
+        }
+        model.addAttribute("foundCasesRbr", foundCases2DTOsplit);
+
+
+
 
         DiseaseDto diseaseDto = new DiseaseDto();
         MedicamentDto medicamentDto = new MedicamentDto();

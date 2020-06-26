@@ -1,4 +1,4 @@
-dijagnoza(crvenilo, kontaktni_dermatitis, 20).
+dijagnoza(crvenilo, kontaktni_dermatitis,76).
 dijagnoza(perutanje, kontaktni_dermatitis, 22).
 dijagnoza(isusena_koza, kontaktni_dermatitis, 17).
 dijagnoza(plikovi, kontaktni_dermatitis, 19).
@@ -22,7 +22,7 @@ dijagnoza(potkozne_bubuljice, akne, 24).
 dijagnoza(pristici, akne, 16).
 
 dijagnoza(crvene_fleke, rosacea, 95).
-dijagnoza(crvenilo, rosacea, 80).
+dijagnoza(crvenilo, rosacea, 60).
 dijagnoza(papule, rosacea, 33).
 dijagnoza(krvarenje, rosacea, 87).
 dijagnoza(pustule, rosacea, 13).

@@ -180,81 +180,125 @@
             </form:form>
 
 
-                <div class="row" id="tabelaAdditionalDiv" style="display: none;">
-                    <div class="col-lg-4 offset-5">
-                        <table class="table table-striped" id="tabelaAdditional">
-                            <tr>
-                                <td><b>Additional exam</b></td>
-                                <td><b>Probability</b></td>
-                            </tr>
-
-                            <body>
-                            <c:forEach items="${foundCases}" var="result">
-                                <tr>
-                                    <td>${result.additionalExams}</td>
-                                    <td>${result.probability} %</td>
-                                </tr>
-                            </c:forEach>
-                            </body>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="row" id="tabelaDiseaseDiv">
-                    <div class="col-lg-4 offset-5">
-                        <table class="table table-striped" id="tabelaDisease">
-                            <tr>
-                                <td><b>Disease</b></td>
-                                <td><b>Probability</b></td>
-                            </tr>
-            <div class="row">
-                <div class="col-lg-5 offset-lg-1">
+            <div class="row" id="tabelaAdditionalDiv" style="display: none;">
+                <div class="col-lg-4 offset-lg-1">
                     <label class="text-white mt-5 ml-4">Cbr Result</label>
-                    <table class="table table-striped ml-4">
+                    <table class="table table-striped" id="tabelaAdditional">
                         <tr>
-                            <td><b>Disease</b></td>
-                            <td class="justify-content-end"><b>Probability</b></td>
+                            <td><b>Additional exam</b></td>
+                            <td><b>Probability</b></td>
                         </tr>
 
-                            <body>
-                            <c:forEach items="${foundCases}" var="result">
-                                <tr>
-                                    <td>${result.diseaseExam}</td>
-                                    <td class="justify-content-end">${result.probability} %</td>
-                                </tr>
-                            </c:forEach>
-                            </body>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="col-lg-5">
-                    <label class="text-white mt-5 ml-5">Rbr Result</label>
-                    <table class="table table-striped ml-5">
-                        <tr>
-                            <td><b>Disease</b></td>
-                            <td class="justify-content-end"><b>Probability</b></td>
-                        </tr>
-                <div class="row" id="tabelaMedicamentDiv" style="display: none;">
-                    <div class="col-lg-4 offset-5">
-                        <table class="table table-striped" id="tabelaMedicament">
+                        <body>
+                        <c:forEach items="${foundCases}" var="result">
                             <tr>
-                                <td><b>Medicament</b></td>
-                                <td><b>Probability</b></td>
+                                <td>${result.additionalExams}</td>
+                                <td>${result.probability} %</td>
                             </tr>
-
-                            <body>
-                            <c:forEach items="${foundCases}" var="result">
-                                <tr>
-                                    <td>${result.medications} </td>
-                                    <td class="justify-content-end">${result.probability} %</td>
-                                </tr>
-                            </c:forEach>
-                            </body>
-                        </table>
-                    </div>
+                        </c:forEach>
+                        </body>
+                    </table>
                 </div>
+                <div class="col-lg-5 offset-lg-2">
+                    <label class="text-white mt-5 ml-4">Rbr Result</label>
 
+                    <table class="table table-striped" id="tabelaAdditionalRbr">
+                        <tr>
+                            <td><b>Additional exam</b></td>
+                            <td><b>Probability</b></td>
+                        </tr>
+
+                        <body>
+                        <c:forEach items="${foundCasesRbr}" var="result">
+                            <tr>
+                                <td>${result.additionalExams}</td>
+                                <td>${result.probability} %</td>
+                            </tr>
+                        </c:forEach>
+                        </body>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="row" id="tabelaDiseaseDiv">
+                <div class="col-lg-4 offset-lg-1">
+                    <label class="text-white mt-5 ml-4">Cbr Result</label>
+
+                    <table class="table table-striped" id="tabelaDisease">
+                        <tr>
+                            <td><b>Disease</b></td>
+                            <td><b>Probability</b></td>
+                        </tr>
+                        <body>
+                        <c:forEach items="${foundCases}" var="result">
+                            <tr>
+                                <td>${result.diseaseExam}</td>
+                                <td class="justify-content-end">${result.probability} %</td>
+                            </tr>
+                        </c:forEach>
+                        </body>
+                    </table>
+                </div>
+                <div class="col-lg-5 offset-lg-2">
+                    <label class="text-white mt-5 ml-4">Rbr Result</label>
+
+                    <table class="table table-striped" id="tabelaDiseaseRbr">
+                        <tr>
+                            <td><b>Disease</b></td>
+                            <td><b>Probability</b></td>
+                        </tr>
+                        <body>
+                        <c:forEach items="${foundCasesRbr}" var="result">
+                            <tr>
+                                <td>${result.diseaseExam}</td>
+                                <td class="justify-content-end">${result.probability} %</td>
+                            </tr>
+                        </c:forEach>
+                        </body>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="row" id="tabelaMedicamentDiv" style="display: none;">
+                <div class="col-lg-4 offset-lg-1">
+                    <label class="text-white mt-5 ml-4">Cbr Result</label>
+                    <table class="table table-striped" id="tabelaMedicament">
+                        <tr>
+                            <td><b>Medicament</b></td>
+                            <td><b>Probability</b></td>
+                        </tr>
+
+                        <body>
+                        <c:forEach items="${foundCases}" var="result">
+                            <tr>
+                                <td>${result.medications} </td>
+                                <td class="justify-content-end">${result.probability} %</td>
+                            </tr>
+                        </c:forEach>
+                        </body>
+                    </table>
+                </div>
+                <div class="col-lg-4 offset-lg-2">
+                    <label class="text-white mt-5 ml-4">Rbr Result</label>
+                    <table class="table table-striped" id="tabelaMedicamentRbr">
+                        <tr>
+                            <td><b>Medicament</b></td>
+                            <td><b>Probability</b></td>
+                        </tr>
+
+                        <body>
+                        <c:forEach items="${foundCasesRbr}" var="result">
+                            <tr>
+                                <td>${result.medications} </td>
+                                <td class="justify-content-end">${result.probability} %</td>
+                            </tr>
+                        </c:forEach>
+                        </body>
+                    </table>
+                </div>
+         </div>
         </div>
     </div>
 </div>
@@ -274,6 +318,11 @@
             var table2 = innerDoc.getElementById('tabelaAdditional');
             var table3 = innerDoc.getElementById('tabelaDisease');
             var table4 = innerDoc.getElementById('tabelaMedicament');
+            var table5 = innerDoc.getElementById('tabelaAdditionalRbr');
+            var table6 = innerDoc.getElementById('tabelaDiseaseRbr');
+            var table7 = innerDoc.getElementById('tabelaMedicamentRbr');
+
+
 
             if(table2 != null) {
                 document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
@@ -283,6 +332,15 @@
             }
             if(table4 != null) {
                 document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+            }
+            if(table5 != null) {
+                document.getElementById('tabelaAdditionalRbr').innerHTML = table5.innerHTML;
+            }
+            if(table6 != null) {
+                document.getElementById('tabelaDiseaseRbr').innerHTML = table6.innerHTML;
+            }
+            if(table7 != null) {
+                document.getElementById('tabelaMedicamentRbr').innerHTML = table7.innerHTML;
             }
 
         }, 500);
@@ -314,13 +372,39 @@
                             "                            </tr>\n" +
                             "\n" +
                             "                            <body></body>";
+
+                        innerDoc.getElementById('tabelaAdditionalRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Additional exam</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+                        innerDoc.getElementById('tabelaDiseaseRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+                        innerDoc.getElementById('tabelaMedicamentRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
                         var table2 = innerDoc.getElementById('tabelaAdditional');
                         var table3 = innerDoc.getElementById('tabelaDisease');
                         var table4 = innerDoc.getElementById('tabelaMedicament');
+                        var table5 = innerDoc.getElementById('tabelaAdditionalRbr');
+                        var table6 = innerDoc.getElementById('tabelaDiseaseRbr');
+                        var table7 = innerDoc.getElementById('tabelaMedicamentRbr');
 
                         document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
                         document.getElementById('tabelaDisease').innerHTML = table3.innerHTML;
                         document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+                        document.getElementById('tabelaAdditionalRbr').innerHTML = table5.innerHTML;
+                        document.getElementById('tabelaDiseaseRbr').innerHTML = table6.innerHTML;
+                        document.getElementById('tabelaMedicamentRbr').innerHTML = table7.innerHTML;
+
                     }
 
                     $("#medicament").hide();
@@ -331,6 +415,7 @@
 
                     $("#disease").show();
                     $("#tabelaDiseaseDiv").show();
+
 
 
                 }
@@ -363,13 +448,36 @@
                             "                            </tr>\n" +
                             "\n" +
                             "                            <body></body>";
-                        var table2 = innerDoc.getElementById('tabelaAdditional');
+                        innerDoc.getElementById('tabelaAdditionalRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Additional exam</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+                        innerDoc.getElementById('tabelaDiseaseRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";var table2 = innerDoc.getElementById('tabelaAdditional');
+                        innerDoc.getElementById('tabelaMedicamentRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
                         var table3 = innerDoc.getElementById('tabelaDisease');
                         var table4 = innerDoc.getElementById('tabelaMedicament');
+                        var table5 = innerDoc.getElementById('tabelaAdditionalRbr');
+                        var table6 = innerDoc.getElementById('tabelaDiseaseRbr');
+                        var table7 = innerDoc.getElementById('tabelaMedicamentRbr');
 
                         document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
                         document.getElementById('tabelaDisease').innerHTML = table3.innerHTML;
                         document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+                        document.getElementById('tabelaAdditionalRbr').innerHTML = table5.innerHTML;
+                        document.getElementById('tabelaDiseaseRbr').innerHTML = table6.innerHTML;
+                        document.getElementById('tabelaMedicamentRbr').innerHTML = table7.innerHTML;
                     }
                     $("#disease").hide();
                     $("#tabelaDiseaseDiv").hide();
@@ -379,6 +487,7 @@
 
                     $("#medicament").show();
                     $("#tabelaMedicamentDiv").show();
+
 
                 }
             );
@@ -408,13 +517,36 @@
                             "                            </tr>\n" +
                             "\n" +
                             "                            <body></body>";
-                        var table2 = innerDoc.getElementById('tabelaAdditional');
+                        innerDoc.getElementById('tabelaAdditionalRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Additional exam</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
+                        innerDoc.getElementById('tabelaDiseaseRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";var table2 = innerDoc.getElementById('tabelaAdditional');
+                        innerDoc.getElementById('tabelaMedicamentRbr').innerHTML = " <tr>\n" +
+                            "                                <td><b>Disease</b></td>\n" +
+                            "                                <td><b>Probability</b></td>\n" +
+                            "                            </tr>\n" +
+                            "\n" +
+                            "                            <body></body>";
                         var table3 = innerDoc.getElementById('tabelaDisease');
                         var table4 = innerDoc.getElementById('tabelaMedicament');
+                        var table5 = innerDoc.getElementById('tabelaAdditionalRbr');
+                        var table6 = innerDoc.getElementById('tabelaDiseaseRbr');
+                        var table7 = innerDoc.getElementById('tabelaMedicamentRbr');
 
                         document.getElementById('tabelaAdditional').innerHTML = table2.innerHTML;
                         document.getElementById('tabelaDisease').innerHTML = table3.innerHTML;
                         document.getElementById('tabelaMedicament').innerHTML = table4.innerHTML;
+                        document.getElementById('tabelaAdditionalRbr').innerHTML = table5.innerHTML;
+                        document.getElementById('tabelaDiseaseRbr').innerHTML = table6.innerHTML;
+                        document.getElementById('tabelaMedicamentRbr').innerHTML = table7.innerHTML;
                     }
 
                     $("#medicament").hide();
