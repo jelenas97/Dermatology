@@ -55,7 +55,10 @@
                <div class="row" id="diseaseExam">
                    <div class="col-lg-12 mt-5">
                        <form:label path="diseaseExam" class="text-white lead pl-4 ml-5 mb-3">Disease</form:label>
-                       <form:select path="diseaseExam" multiple="false" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" data-live-search="true" class="selectpicker col-lg-11 ml-5">
+                       <form:select  path="diseaseExam" data-style="bg-white rounded-pill px-4 py-3 shadow-sm" data-live-search="true" class="selectpicker col-lg-11 ml-5">
+                           <option selected="selected" disabled="disabled" style="color: #5a6268" hidden="hidden">
+                              Nothing selected
+                           </option>
                            <c:forEach items="${diseases}" var="disease1">
                                <option class="col-lg-12" value="${disease1}">${disease1}</option>
                            </c:forEach>
@@ -77,9 +80,9 @@
 
 
                <div class="row">
-                   <div class="col-lg-2 offset-lg-9 justify-content-end" >
-                       <a class="pl-5 mt-5" href="/exam/${patientId}">
-                           <input type="submit" class="btn border-0 mt-5" value="Save"/>
+                   <div class="col-lg-2 offset-lg-9 justify-content-end">
+                       <a class="pl-4 mt-5" href="/exam/${patientId}">
+                           <input type="submit" style="opacity: 50%; width: 80px" class="btn btn-dark text-white border-0 mt-5" value="Save"/>
                        </a>
                    </div>
                </div>
@@ -108,9 +111,9 @@
 
 
                 <div class="row">
-                    <div class="col-lg-2 offset-lg-9 justify-content-end">
-                        <a class="pl-5 mt-5">
-                            <button id="showResult" type="submit" class="btn border-0 mt-5">Predict</button>
+                    <div class="col-lg-4 offset-lg-6 justify-content-end">
+                        <a class="pl-5 ml-5 mt-5">
+                            <button id="showResult" style="opacity: 50%;"  type="submit" class="btn btn-dark text-white border-0 mt-5">See Additional Exams</button>
                         </a>
                     </div>
                 </div>
@@ -142,9 +145,9 @@
 
 
                 <div class="row">
-                    <div class="col-lg-2 offset-lg-9 justify-content-end" >
+                    <div class="col-lg-2 offset-lg-8 justify-content-end" >
                         <a href="/disease/predict/${diseaseDto.patientId}" class="pl-5">
-                            <input  type="submit" value="Predict" class="btn border-0 mt-5"/>
+                            <input style="opacity: 50%;" type="submit" value="See diseases" class="btn btn-dark text-white border-0 mt-5"/>
                         </a>
                     </div>
                 </div>
@@ -165,9 +168,9 @@
 
 
                 <div class="row">
-                    <div class="col-lg-2 offset-lg-9 justify-content-end">
-                        <a href="/disease/predict/${medicamentDto.patientId}" class="pl-5">
-                            <input type="submit" value="Predict" class="btn border-0 mt-5"/>
+                    <div class="col-lg-2 offset-lg-8 justify-content-end">
+                        <a href="/disease/predict/${medicamentDto.patientId}" class="pl-4">
+                            <input type="submit" style="opacity: 50%;" value="See medications" class="btn btn-dark text-white border-0 mt-5"/>
                         </a>
                     </div>
                 </div>
@@ -201,12 +204,20 @@
                                 <td><b>Disease</b></td>
                                 <td><b>Probability</b></td>
                             </tr>
+            <div class="row">
+                <div class="col-lg-5 offset-lg-1">
+                    <label class="text-white mt-5 ml-4">Cbr Result</label>
+                    <table class="table table-striped ml-4">
+                        <tr>
+                            <td><b>Disease</b></td>
+                            <td class="justify-content-end"><b>Probability</b></td>
+                        </tr>
 
                             <body>
                             <c:forEach items="${foundCases}" var="result">
                                 <tr>
                                     <td>${result.diseaseExam}</td>
-                                    <td>${result.probability} %</td>
+                                    <td class="justify-content-end">${result.probability} %</td>
                                 </tr>
                             </c:forEach>
                             </body>
@@ -214,6 +225,13 @@
                     </div>
                 </div>
 
+                <div class="col-lg-5">
+                    <label class="text-white mt-5 ml-5">Rbr Result</label>
+                    <table class="table table-striped ml-5">
+                        <tr>
+                            <td><b>Disease</b></td>
+                            <td class="justify-content-end"><b>Probability</b></td>
+                        </tr>
                 <div class="row" id="tabelaMedicamentDiv" style="display: none;">
                     <div class="col-lg-4 offset-5">
                         <table class="table table-striped" id="tabelaMedicament">
@@ -226,7 +244,7 @@
                             <c:forEach items="${foundCases}" var="result">
                                 <tr>
                                     <td>${result.medications} </td>
-                                    <td>${result.probability} %</td>
+                                    <td class="justify-content-end">${result.probability} %</td>
                                 </tr>
                             </c:forEach>
                             </body>
